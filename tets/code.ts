@@ -24,10 +24,13 @@ if (figma.editorType === 'figma') {
         if (node.type === "FRAME")
         {
           comp.resizeWithoutConstraints(node.width, node.height); 
+          node.appendChild(comp);
+          comps.push(comp);
+          comp.name = node.children.length.toString();
+          //comp.name= comps.length.toString();
+      //figma.currentPage.appendChild(comp);
         }
       }
-      comps.push(comp);
-      figma.currentPage.appendChild(comp);
     
     }
 
