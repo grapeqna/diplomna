@@ -1,0 +1,34 @@
+<h2>Shape Creator</h2>
+<p>Count: <input id="count" type="number" ></p>
+<button id="create">New</button>
+<button id="cancel">Cancel</button>
+<button id="Hello">Hello</button>
+<button id="layer">Layer</button>
+  
+<script>
+
+document.getElementById('create').onclick = () => {
+  //suzdavam frame
+  /*const textbox = document.getElementById('count');
+  const count = parseInt(textbox.value, 10);*/
+  //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
+
+  parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
+}
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
+
+document.getElementById('Hello').onclick =() => {
+  const h1Element = document.createElement('h1');
+      h1Element.textContent = 'Hello ala bala';
+      document.body.appendChild(h1Element);
+//parent.postMessage({pluginMessage: {type: 'Hello'} },'*')
+}
+
+document.getElementById('layer').onclick =() =>{
+  //pravq now layer izpolzvam nov component
+  parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
+}
+</script>
