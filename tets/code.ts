@@ -51,7 +51,7 @@ if (figma.editorType === 'figma') {
     {
       if(figma.currentPage.selection.length < 2)
        { // figma.ui.postMessage({ type: 'not-selected'}, );
-        figma.ui.postMessage({ pluginMessage: { type: 'close' } } )
+        figma.ui.postMessage( { type: 'not-selected'}, { origin: "*" }  )
        }
       else 
         figma.closePlugin()
