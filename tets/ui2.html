@@ -54,10 +54,10 @@
     parent.postMessage({pluginMessage: {type: 'merge'}}, '*')
   }
 
-  window.onmessage = (e) => console.log("UI LOG", e.data.pluginMessage);
+  // window.onmessage = (e) => console.log("UI LOG", e.data.pluginMessage);
   window.onmessage = (msg) => {
-        if (msg.pluginMessage.type === 'not-selected') {
-          parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+        if (msg.type === 'not-selected') {
+          parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
           // console.log('Showing pop-up');
           // document.getElementById('overlay').style.display = 'block';
           // document.getElementById('popup').style.display = 'block';
