@@ -9,7 +9,10 @@
     "figma",
     "figjam"
   ],
-  "ui": "ui.html",
+  "ui": {
+    "main": "ui.html",
+    "secondary": "ui2.html"
+  },
   "networkAccess": {
     "allowedDomains": [
       "none"

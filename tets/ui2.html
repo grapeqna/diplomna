@@ -2,10 +2,14 @@
 <body style=" background-color: #2E2929; color: #CCCCCC;">
 
   <h2>Artify</h2>
+  <button id="create">New layer</button>
+
   </body>
   
   <script>
-  
+  document.getElementById('create').onclick = () => { 
+  parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
+  }
   
   </script>
   

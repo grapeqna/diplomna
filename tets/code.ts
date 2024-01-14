@@ -1,6 +1,6 @@
 if (figma.editorType === 'figma') {
-  // figma.showUI(__uiFiles__.ui, { themeColors: true, })
-  figma.showUI(__html__, { themeColors: true, },)
+  figma.showUI(__uiFiles__.main, { themeColors: true, })
+  // figma.showUI(__html__, { themeColors: true, },)
 
   figma.ui.onmessage = msg => {
 
@@ -11,7 +11,7 @@ if (figma.editorType === 'figma') {
       //if (frame_exist.value === false)
       const layer = figma.createFrame();
       layer.resize(1280, 720);
-      layer.fills = [{type: 'SOLID', color: {r:1, g:0, b:0}}];
+      layer.fills = [{type: 'SOLID', color: {r:1, g:1, b:1}}];
       figma.currentPage.appendChild(layer);
      
     }
@@ -37,7 +37,7 @@ if (figma.editorType === 'figma') {
     }
     if(msg.type=== 'layers-look')
     {
-      //figma.showUI(__uiFiles__.ui2)
+      figma.showUI(__uiFiles__.secondary)
       //otvarq noviq html kudeto ima pokazani razli4nite sloeve i advane na filters na otdelen layer ili na vsi4ki, merge na layers
     }
 
