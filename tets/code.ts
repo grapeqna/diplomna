@@ -49,12 +49,18 @@ if (figma.editorType === 'figma') {
 
     if(msg.type === 'merge')
     {
+      if(figma.currentPage.selection.length < 2)
+        figma.ui.postMessage({ type: 'not-selected'});
+      else 
+        figma.closePlugin()
+        // figma.currentPage.selection
+
       //izbira layer kazva merge s goren ili dolen layer i mergevam
     }
 
     if(msg.type==='close')
     {
-      figma.closePlugin();
+      figma.closePlugin()
     }
 
   };
