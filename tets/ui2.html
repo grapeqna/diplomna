@@ -3,6 +3,8 @@
 
   <h2>Artify</h2>
   <button id="create">New layer</button>
+  <button id="filter">Add filter</button>
+  <button id="merge">Merge layers</button>
 
   </body>
   
@@ -11,5 +13,12 @@
   parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   }
   
+  document.getElementById('filter').onclick = () =>{
+    parent.postMessage({pluginMessage: {type: 'filter'}}, '*')
+  }
+
+  document.getElementById('merge').onclick = () =>{
+    parent.postMessage({pluginMessage: {type: 'merge'}}, '*')
+  }
   </script>
   

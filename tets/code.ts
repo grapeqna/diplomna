@@ -41,10 +41,22 @@ if (figma.editorType === 'figma') {
       //otvarq noviq html kudeto ima pokazani razli4nite sloeve i advane na filters na otdelen layer ili na vsi4ki, merge na layers
     }
 
-   if(msg.type==='close')
+    if(msg.type === 'filter')
+    {
+      //user traa selectne layer il da kazhe da se slozhi na vsi4ki
+      //mozhe bi na otdelni butona idk
+    }
+
+    if(msg.type === 'merge')
+    {
+      //izbira layer kazva merge s goren ili dolen layer i mergevam
+    }
+
+    if(msg.type==='close')
     {
       figma.closePlugin();
     }
+
   };
 }
 
