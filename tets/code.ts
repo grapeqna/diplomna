@@ -1,5 +1,6 @@
 if (figma.editorType === 'figma') {
-  figma.showUI(__html__);
+  // figma.showUI(__uiFiles__.ui, { themeColors: true, })
+  figma.showUI(__html__, { themeColors: true, },)
 
   figma.ui.onmessage = msg => {
 
@@ -34,6 +35,11 @@ if (figma.editorType === 'figma') {
       }
     
     }
+    if(msg.type=== 'layers-look')
+    {
+      //figma.showUI(__uiFiles__.ui2)
+      //otvarq noviq html kudeto ima pokazani razli4nite sloeve i advane na filters na otdelen layer ili na vsi4ki, merge na layers
+    }
 
    if(msg.type==='close')
     {
@@ -41,6 +47,9 @@ if (figma.editorType === 'figma') {
     }
   };
 }
+
+/*You can ask the user to draw with a pencil tool and then convert all newly added vector objects (drawings) into brush strokes. There is no way to make the effect real-time. Only when the user finishes the stroke you can convert it. */
+
 
 if (figma.editorType === 'figjam') {
   // This plugin will open a window to prompt the user to enter a number, and

@@ -1,10 +1,15 @@
-<h2>Shape Creator</h2>
+<!-- <link rel="stylesheet" href="styles.css"> -->
+<body style=" background-color: #2E2929; color: #CCCCCC;">
+
+<h2>Artify</h2>
 <!-- <p>Count: <input id="count" type="number" ></p> -->
 <button id="create">New</button>
 <button id="close">Close</button>
-<button id="Hello">Hello</button>
+<!-- <button id="Hello">Hello</button> -->
 <button id="layer">Layer</button>
-<button id="brush">Brush</button>  
+<button id="layers-look">View layers</button>
+<!-- <button id="brush">Brush</button>   -->
+</body>
 
 <script>
 
@@ -21,19 +26,23 @@ document.getElementById('close').onclick = () => {
   parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
 }
 
-document.getElementById('Hello').onclick =() => {
-  const h1Element = document.createElement('h1');
-      h1Element.textContent = 'Hello ala bala';
-      document.body.appendChild(h1Element);
+//document.getElementById('Hello').onclick =() => {
+  //const h1Element = document.createElement('h1');
+    //  h1Element.textContent = 'Hello ala bala';
+      //document.body.appendChild(h1Element);
 //parent.postMessage({pluginMessage: {type: 'Hello'} },'*')
-}
+//}
 
 document.getElementById('layer').onclick =() =>{
   //pravq now layer izpolzvam nov component
   parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
 }
 
-document.getElementById('brush').onclick =() =>{
-  parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
+document.getElementById('layers-look').onclick =() =>{
+  parent.postMessage({pluginMessage:{type:'layers-look'}}, '*')
 }
+
+// document.getElementById('brush').onclick =() =>{
+//   parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
+// }
 </script>

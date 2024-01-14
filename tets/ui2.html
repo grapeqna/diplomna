@@ -1,66 +1,11 @@
+<!-- <link rel="stylesheet" href="styles.css"> -->
+<body style=" background-color: #2E2929; color: #CCCCCC;">
 
-<body>
-
-  <h2>Shape Creator</h2>
-  <p>Count: <input id="count" type="number" ></p>
-  <button id="create">Create</button>
-  <button id="cancel">Cancel</button>
-  <button id="Hello">Hello</button>
-
+  <h2>Artify</h2>
+  </body>
+  
   <script>
-    
-    window.onmessage = event => {
-      const { type } = event.data.pluginMessage;
-
-      if (type === 'showElements') {
-        showElements();
-      } else if (type === 'hideElements') {
-        hideElements();
-      }
-    };
-
-    // Function to show specific elements
-    function showElements() {
-      document.getElementById('count').style.display = 'block';
-      document.getElementById('create').style.display = 'block';
-      document.getElementById('Hello').style.display = 'block';
-      document.getElementById('cancel').style.display = 'none';
-    }
-
-    // Function to hide unnecessary elements
-    function hideElements() {
-      document.getElementById('count').style.display = 'none';
-      document.getElementById('create').style.display = 'none';
-      document.getElementById('Hello').style.display = 'none';
-      document.getElementById('cancel').style.display = 'block';
-    }
-
-    // Event handlers for button clicks
-    document.getElementById('create').onclick = () => {
-      const textbox = document.getElementById('count');
-      const count = parseInt(textbox.value, 10);
-
-      // Communicate with the Figma plugin API
-      parent.postMessage({ pluginMessage: { type: 'create-shapes', count } }, '*');
-    };
-
-    document.getElementById('cancel').onclick = () => {
-      // Communicate with the Figma plugin API
-      parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
-    };
-
-    document.getElementById('Hello').onclick = () => {
-      const h1Element = document.createElement('h1');
-      h1Element.textContent = 'Hello ala bala';
-
-      // Append the h1 element to the body of the document
-      document.body.appendChild(h1Element);
-      document.body.appendChild(id='cancel');
-
-      // Communicate with the Figma plugin API to hide unnecessary elements
-     // parent.postMessage({ pluginMessage: { type: 'hideElements' } }, '*');
-    };
+  
+  
   </script>
-
-</body>
-</html>
+  

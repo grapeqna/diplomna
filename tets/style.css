@@ -1,0 +1,9 @@
+.figma-light body {
+    background-color: white;
+    color: blue;
+  }
+  
+  .figma-dark body {
+    background-color: black;
+    color: red;
+  }
