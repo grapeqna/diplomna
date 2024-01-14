@@ -14,6 +14,7 @@ if (figma.editorType === 'figma') {
       figma.currentPage.appendChild(layer);
      
     }
+
     if (msg.type === 'create-layer')
     {
     //if (frame_exist.value === true){
@@ -34,8 +35,10 @@ if (figma.editorType === 'figma') {
     
     }
 
-   
-    figma.closePlugin();
+   if(msg.type==='close')
+    {
+      figma.closePlugin();
+    }
   };
 }
 

@@ -1,10 +1,11 @@
 <h2>Shape Creator</h2>
 <!-- <p>Count: <input id="count" type="number" ></p> -->
 <button id="create">New</button>
-<button id="cancel">Cancel</button>
+<button id="close">Close</button>
 <button id="Hello">Hello</button>
 <button id="layer">Layer</button>
-  
+<button id="brush">Brush</button>  
+
 <script>
 
 document.getElementById('create').onclick = () => {
@@ -16,8 +17,8 @@ document.getElementById('create').onclick = () => {
   parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
 }
 
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+document.getElementById('close').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
 }
 
 document.getElementById('Hello').onclick =() => {
@@ -30,5 +31,9 @@ document.getElementById('Hello').onclick =() => {
 document.getElementById('layer').onclick =() =>{
   //pravq now layer izpolzvam nov component
   parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
+}
+
+document.getElementById('brush').onclick =() =>{
+  parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
 }
 </script>
