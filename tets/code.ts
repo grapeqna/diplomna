@@ -50,7 +50,9 @@ if (figma.editorType === 'figma') {
     if(msg.type === 'merge')
     {
       if(figma.currentPage.selection.length < 2)
-        figma.ui.postMessage({ type: 'not-selected'});
+       { // figma.ui.postMessage({ type: 'not-selected'}, );
+        figma.ui.postMessage({ pluginMessage: { type: 'close' } } )
+       }
       else 
         figma.closePlugin()
         // figma.currentPage.selection

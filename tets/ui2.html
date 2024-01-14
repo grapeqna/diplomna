@@ -56,8 +56,10 @@
 
   parent.onmessage = msg => {
         if (msg.pluginMessage.type === 'not-selected') {
-          document.getElementById('overlay').style.display = 'block';
-          document.getElementById('popup').style.display = 'block';
+          parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+          // console.log('Showing pop-up');
+          // document.getElementById('overlay').style.display = 'block';
+          // document.getElementById('popup').style.display = 'block';
         }
     };
 
