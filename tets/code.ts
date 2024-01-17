@@ -1,7 +1,7 @@
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, })
 
-  figma.currentPage
+  figma.currentPage.children
 
   figma.ui.onmessage = msg => {
 
@@ -9,7 +9,7 @@ if (figma.editorType === 'figma') {
   // const frame = figma.createNodeFromSvg('FRAME');
 
     if (msg.type === 'create') {
-      //if (frame_exist.value === false)
+      figma.showUI(__uiFiles__.third)
       const layer = figma.createFrame();
       layer.resize(1280, 720);
       layer.fills = [{type: 'SOLID', color: {r:1, g:1, b:1}}];

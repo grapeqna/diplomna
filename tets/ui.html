@@ -1,35 +1,86 @@
 <!-- <link rel="stylesheet" href="styles.css"> -->
+<style>
+  .button {
+    width: 100%;
+    height: 20%;
+    background-color: #2E2929;
+    color: #FFF;
+    font-family: "Alata", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    padding: 10px;
+  }
 
-<body style=" background-color: #2E2929; color: #CCCCCC; font-family: 'Righteous', sans-serif;">
+  .button-cont {
+    display: flex;
+  }
 
-<h2>ArtiFig</h2>
-<!-- <p>Count: <input id="count" type="number" ></p> -->
-<button id="create">New</button>
-<button id="close">Close</button>
-<button id="layers-look">View layer options</button>
-<!-- <button id="brush">Brush</button>   -->
+  .half-button {
+    width: 50%;
+    height: 20%;
+    background-color: #2E2929;
+    color: #FFF;
+    font-family: "Alata", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .text {
+    color: #8E81AE;
+    font-family: "Alata", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 3%;
+    margin-top: -5%;
+  }
+</style>
+
+<body style=" background-color: #2E2929; color: #CCCCCC; font-family: 'Alata', sans-serif; margin: 0%; padding: 0%;">
+
+  <h2 style="margin-top: 5%; margin-left: 3%; font-size: 25px;">ArtiFig</h2>
+  <h4 class="text">Make you design easier and more unique with some of your own art! </h4>
+  <!-- <p>Count: <input id="count" type="number" ></p> -->
+
+  <button id="create" class="button">New</button>
+  <button id="layers-look" class="button">View layer options</button>
+  <button id="brush" class="button">Brush</button>  
+  <button id="brush" class="button">Eraser</button>  
+  <button id="brush" class="button">Bucket</button>  
+
+
+  <div class="button-cont">
+    <button id="save" class="half-button">Save</button>
+    <button id="close" class="half-button">Close</button>
+  </div>
 </body>
 
 <script>
 
-document.getElementById('create').onclick = () => {
-  //suzdavam frame
-  /*const textbox = document.getElementById('count');
-  const count = parseInt(textbox.value, 10);*/
-  //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
+  document.getElementById('create').onclick = () => {
+    //suzdavam frame
+    /*const textbox = document.getElementById('count');
+    const count = parseInt(textbox.value, 10);*/
+    //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
 
-  parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
-}
+    parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
+  }
 
-document.getElementById('close').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
-}
+  document.getElementById('close').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+  }
 
-document.getElementById('layers-look').onclick =() =>{
-  parent.postMessage({pluginMessage:{type:'layers-look'}}, '*')
-}
+  document.getElementById('layers-look').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'layers-look' } }, '*')
+  }
 
-// document.getElementById('brush').onclick =() =>{
-//   parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
-// }
+  // document.getElementById('brush').onclick =() =>{
+  //   parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
+  // }
 </script>

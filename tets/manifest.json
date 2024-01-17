@@ -12,7 +12,7 @@
   "ui": {
     "main": "ui.html",
     "secondary": "ui2.html",
-    "thirdFile":"frame.html"
+    "third":"frame.html"
   },
   "networkAccess": {
     "allowedDomains": [
