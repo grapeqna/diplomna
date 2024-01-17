@@ -5,64 +5,72 @@ if (figma.editorType === 'figma') {
 
   figma.ui.onmessage = msg => {
 
-  // const frame_exist: { value: boolean } = { value: false };
-  // const frame = figma.createNodeFromSvg('FRAME');
+    // const frame_exist: { value: boolean } = { value: false };
+    // const frame = figma.createNodeFromSvg('FRAME');
 
     if (msg.type === 'create') {
       figma.showUI(__uiFiles__.third)
       const layer = figma.createFrame();
       layer.resize(1280, 720);
-      layer.fills = [{type: 'SOLID', color: {r:1, g:1, b:1}}];
+      layer.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
       figma.currentPage.appendChild(layer);
-     
+
     }
 
-    if (msg.type === 'create-layer')
-    {
-    //if (frame_exist.value === true){
-      const comps: ComponentNode[] =[];
+    if (msg.type === 'create-layer') {
+      //if (frame_exist.value === true){
+      const comps: ComponentNode[] = [];
       const comp = figma.createComponent();
 
       for (const node of figma.currentPage.children) {
-        if (node.type === "FRAME")
-        {
-          comp.resizeWithoutConstraints(node.width, node.height); 
+        if (node.type === "FRAME") {
+          comp.resizeWithoutConstraints(node.width, node.height);
           node.appendChild(comp);
           comps.push(comp);
           comp.name = node.children.length.toString();
           //comp.name= comps.length.toString();
-      //figma.currentPage.appendChild(comp);
+          //figma.currentPage.appendChild(comp);
         }
       }
-    
+
     }
-    if(msg.type=== 'layers-look')
-    {
+    if (msg.type === 'layers-look') {
       figma.showUI(__uiFiles__.secondary)
     }
 
-    if(msg.type === 'filter')
-    {
+    if (msg.type === 'filter') {
       //user traa selectne layer il da kazhe da se slozhi na vsi4ki
       //mozhe bi na otdelni butona idk
     }
 
-    if(msg.type === 'merge')
-    {
-      if(figma.currentPage.selection.length < 2)
-       { // figma.ui.postMessage({ type: 'not-selected'}, );
-        figma.ui.postMessage( { type: 'not-selected'}, { origin: "*" }  )
-       }
-      else 
-        figma.flatten(figma.currentPage.selection)
-       //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
-       //ne6tata v komponentite mozhe da se flttenvat bez problem
-       //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
+    if (msg.type === 'merge') {
+      if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
+        figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
+      else
+        figma.flatten(figma.currentPage.selection)
+      //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
+      //ne6tata v komponentite mozhe da se flttenvat bez problem
+      //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
+    }
 
-    if(msg.type==='close')
-    {
+    if (msg.type === 'save') {
+      if (figma.currentPage.selection.length == 0) {
+        figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+      }
+      else {
+        (async () => {
+          await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+        })
+      }
+    }
+
+    if (msg.type === 'close') {
       figma.closePlugin()
+    }
+
+    if (msg.type === 'back') {
+      figma.showUI(__uiFiles__.main)
     }
 
   };
@@ -92,7 +100,7 @@ if (figma.editorType === 'figjam') {
         // You can set shapeType to one of: 'SQUARE' | 'ELLIPSE' | 'ROUNDED_RECTANGLE' | 'DIAMOND' | 'TRIANGLE_UP' | 'TRIANGLE_DOWN' | 'PARALLELOGRAM_RIGHT' | 'PARALLELOGRAM_LEFT'
         shape.shapeType = 'ROUNDED_RECTANGLE'
         shape.x = i * (shape.width + 200);
-        shape.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
+        shape.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
         figma.currentPage.appendChild(shape);
         nodes.push(shape);
       };
@@ -107,7 +115,7 @@ if (figma.editorType === 'figjam') {
         };
 
         connector.connectorEnd = {
-          endpointNodeId: nodes[i+1].id,
+          endpointNodeId: nodes[i + 1].id,
           magnet: 'AUTO',
         };
       };
