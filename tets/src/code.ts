@@ -3,7 +3,7 @@ if (figma.editorType === 'figma') {
 
   figma.currentPage.children
 
-  figma.ui.onmessage = async msg => {
+  figma.ui.onmessage = msg => {
 
     // const frame_exist: { value: boolean } = { value: false };
     // const frame = figma.createNodeFromSvg('FRAME');
@@ -59,7 +59,7 @@ if (figma.editorType === 'figma') {
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
       else {
-         await (figma.currentPage.selection[0].exportAsync({ format: 'PNG' }))
+          figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
       }
     }
 
