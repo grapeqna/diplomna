@@ -1,5 +1,5 @@
 {
-  "name": "artify",
+  "name": "ArtiFig",
   "id": "1310180045900869346",
   "api": "1.0.0",
   "main": "code.js",
@@ -11,11 +11,12 @@
   ],
   "ui": {
     "main": "ui.html",
-    "secondary": "ui2.html"
+    "secondary": "ui2.html",
+    "thirdFile":"frame.html"
   },
   "networkAccess": {
     "allowedDomains": [
-      "none"
+      "https://fonts.google.com"
     ]
   }
 }

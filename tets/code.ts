@@ -1,6 +1,7 @@
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, })
-  // figma.showUI(__html__, { themeColors: true, },)
+
+  figma.currentPage
 
   figma.ui.onmessage = msg => {
 
@@ -38,7 +39,6 @@ if (figma.editorType === 'figma') {
     if(msg.type=== 'layers-look')
     {
       figma.showUI(__uiFiles__.secondary)
-      //otvarq noviq html kudeto ima pokazani razli4nite sloeve i advane na filters na otdelen layer ili na vsi4ki, merge na layers
     }
 
     if(msg.type === 'filter')

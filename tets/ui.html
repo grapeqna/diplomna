@@ -1,12 +1,11 @@
 <!-- <link rel="stylesheet" href="styles.css"> -->
-<body style=" background-color: #2E2929; color: #CCCCCC;">
 
-<h2>Artify</h2>
+<body style=" background-color: #2E2929; color: #CCCCCC; font-family: 'Righteous', sans-serif;">
+
+<h2>ArtiFig</h2>
 <!-- <p>Count: <input id="count" type="number" ></p> -->
 <button id="create">New</button>
 <button id="close">Close</button>
-<!-- <button id="Hello">Hello</button> -->
-<!-- <button id="layer">Layer</button> -->
 <button id="layers-look">View layer options</button>
 <!-- <button id="brush">Brush</button>   -->
 </body>
@@ -25,18 +24,6 @@ document.getElementById('create').onclick = () => {
 document.getElementById('close').onclick = () => {
   parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
 }
-
-//document.getElementById('Hello').onclick =() => {
-  //const h1Element = document.createElement('h1');
-    //  h1Element.textContent = 'Hello ala bala';
-      //document.body.appendChild(h1Element);
-//parent.postMessage({pluginMessage: {type: 'Hello'} },'*')
-//}
-
-// document.getElementById('layer').onclick =() =>{
-//   //pravq now layer izpolzvam nov component
-//   parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
-// }
 
 document.getElementById('layers-look').onclick =() =>{
   parent.postMessage({pluginMessage:{type:'layers-look'}}, '*')
