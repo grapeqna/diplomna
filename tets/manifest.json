@@ -16,7 +16,8 @@
   },
   "networkAccess": {
     "allowedDomains": [
-      "https://fonts.google.com"
+      "https://fonts.google.com",
+      "https://www.npmjs.com/package/file-saver"
     ]
   }
 }

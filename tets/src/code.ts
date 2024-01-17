@@ -3,18 +3,18 @@ if (figma.editorType === 'figma') {
 
   figma.currentPage.children
 
-  figma.ui.onmessage = msg => {
+  figma.ui.onmessage = async msg => {
 
     // const frame_exist: { value: boolean } = { value: false };
     // const frame = figma.createNodeFromSvg('FRAME');
 
     if (msg.type === 'create') {
-      figma.showUI(__uiFiles__.third)
+      // figma.showUI(__uiFiles__.third)
       const layer = figma.createFrame();
       layer.resize(1280, 720);
       layer.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
       figma.currentPage.appendChild(layer);
-
+      
     }
 
     if (msg.type === 'create-layer') {
@@ -59,7 +59,7 @@ if (figma.editorType === 'figma') {
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
       else {
-          figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+          saveAs( await (figma.currentPage.selection[0].exportAsync({ format: 'PNG' })))
       }
     }
 
@@ -127,3 +127,4 @@ if (figma.editorType === 'figjam') {
     figma.closePlugin();
   };
 };
+
