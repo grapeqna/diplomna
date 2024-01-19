@@ -1,3 +1,4 @@
+import { saveAs } from '../../file-saver';
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, })
 
@@ -59,7 +60,7 @@ if (figma.editorType === 'figma') {
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
       else {
-          // saveAs( await (figma.currentPage.selection[0].exportAsync({ format: 'PNG' })))
+          saveAs( await (figma.currentPage.selection[0].exportAsync({ format: 'PNG' })))
       }
     }
 
