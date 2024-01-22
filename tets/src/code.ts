@@ -2,7 +2,18 @@ import { saveAs } from '../../file-saver';
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, })
 
-  figma.currentPage.children
+  // figma.currentPage.children
+  const comps: ComponentNode[] = [];
+  for(const i in comps)
+    {
+      figma.flatten(comps[i].children)
+      // if(figma.currentPage.children.includes(comps[i]))
+      // {
+        
+      //   // figma.currentPage.children.
+      // }
+    }
+
 
   figma.ui.onmessage = async msg => {
 
@@ -19,8 +30,6 @@ if (figma.editorType === 'figma') {
     }
 
     if (msg.type === 'create-layer') {
-      //if (frame_exist.value === true){
-      const comps: ComponentNode[] = [];
       const comp = figma.createComponent();
 
       for (const node of figma.currentPage.children) {
@@ -29,6 +38,7 @@ if (figma.editorType === 'figma') {
           node.appendChild(comp);
           comps.push(comp);
           comp.name = node.children.length.toString();
+          // console.log(comps.length)
           //comp.name= comps.length.toString();
           //figma.currentPage.appendChild(comp);
         }

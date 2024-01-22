@@ -17,6 +17,24 @@
     line-height: normal;
     text-align: left;
     padding: 10px;
+    transition: background-color 0.2s ease;
+    border-style: solid;
+    border-top: 1%;
+    border-top-color: #5C5470;
+    border-top-width: 1%;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+
+
+  .button:hover {
+    background-color: #3e3a3a;
+  }
+
+  .button:active {
+    background-color: #5C5470;
   }
 
   .button-cont {
@@ -34,6 +52,30 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    border-top: 1% ;
+    border-top-style: solid; 
+    border-top-color:  #5C5470;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  #save{
+    border-right: 0.5%;
+    border-right-style: solid;
+    border-right-color: #5C5470;
+  }
+
+  .half-button:hover {
+    background-color: #3e3a3a;
+  }
+
+  #save:active {
+    background-color: #094E3D;
+  }
+
+  #back:active {
+    background-color: #610923;
   }
 
   .text {
@@ -71,9 +113,8 @@
   <button id="filter" class="button">Add filter</button>
   <button id="merge" class="button">Merge layers</button>
 
-  <!-- <div class="overlay" id="overlay"></div> -->
   <div class="popup" id="popup-merge">
-    <p class="popup-text">Make sure to select at least two layers 
+    <p class="popup-text">Make sure to select at least two layers
       and try again</p>
   </div>
 
