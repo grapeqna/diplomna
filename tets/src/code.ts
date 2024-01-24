@@ -1,4 +1,4 @@
-import { saveAs } from '../../file-saver';
+import { saveAs } from 'file-saver';
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, })
 
