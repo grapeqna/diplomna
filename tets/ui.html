@@ -1,5 +1,4 @@
 <style>
-  
   .button {
     width: 100%;
     height: 20%;
@@ -23,13 +22,13 @@
     box-shadow: none;
   }
 
-.button:hover {
-    background-color: #3e3a3a; 
-}
+  .button:hover {
+    background-color: #3e3a3a;
+  }
 
-.button:active {
-    background-color: #5C5470; 
-}
+  .button:active {
+    background-color: #5C5470;
+  }
 
 
   .button-cont {
@@ -47,15 +46,15 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    border-top: 1% ;
-    border-top-style: solid; 
-    border-top-color:  #5C5470;
+    border-top: 1%;
+    border-top-style: solid;
+    border-top-color: #5C5470;
     border-left: none;
     border-right: none;
     border-bottom: none;
   }
 
-  #save{
+  #save {
     border-right: 0.5%;
     border-right-style: solid;
     border-right-color: #5C5470;
@@ -109,9 +108,9 @@
 
   <button id="create" class="button">New</button>
   <button id="layers-look" class="button">View layer options</button>
-  <button id="brush" class="button">Brush</button>  
-  <button id="eraser" class="button">Eraser</button>  
-  <button id="bucket" class="button">Bucket</button>  
+  <button id="brush" class="button">Brush</button>
+  <button id="eraser" class="button">Eraser</button>
+  <button id="bucket" class="button">Bucket</button>
 
   <div class="popup" id="popup-save">
     <p class="popup-text">Make sure to select the frame you want to save and try again</p>
@@ -123,7 +122,21 @@
   </div>
 </body>
 
+<script src=" https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js "></script>
+
 <script>
+
+  async function savePng() {
+    if (figma.currentPage.selection.length == 0) {
+      document.getElementById('popup-save').style.display = 'block'
+      // figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+    }
+    else {
+      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      saveAs(imageBlob, 'file-name.png')
+    }
+  }
 
   document.getElementById('create').onclick = () => {
     //suzdavam frame
@@ -139,7 +152,8 @@
   }
 
   document.getElementById('save').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+    savePng()
+    // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
     document.getElementById('popup').style.display = 'none'
   }
 
