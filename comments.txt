@@ -25,3 +25,30 @@
 
 
 // Runs this code if the plugin is run in FigJam
+
+
+<script src=" https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js "></script>
+
+  async function savePng() {
+    if (figma.currentPage.selection.length == 0) {
+      document.getElementById('popup-save').style.display = 'block'
+      // figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+    }
+    else {
+      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      saveAs(imageBlob, 'file-name.png')
+    }
+  }
+
+// if (msg.type === 'save') {
+
+    //   if (figma.currentPage.selection.length == 0) {
+    //     figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+    //   }
+    //   else {
+    //     const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+    //     const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+    //     saveAs(imageBlob, 'file-name.png')
+    //   }
+    // }

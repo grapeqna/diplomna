@@ -122,21 +122,9 @@
   </div>
 </body>
 
-<script src=" https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js "></script>
 
 <script>
 
-  async function savePng() {
-    if (figma.currentPage.selection.length == 0) {
-      document.getElementById('popup-save').style.display = 'block'
-      // figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
-    }
-    else {
-      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
-      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
-      saveAs(imageBlob, 'file-name.png')
-    }
-  }
 
   document.getElementById('create').onclick = () => {
     //suzdavam frame
@@ -152,8 +140,8 @@
   }
 
   document.getElementById('save').onclick = () => {
-    savePng()
-    // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+    // savePng()
+    parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
     document.getElementById('popup').style.display = 'none'
   }
 

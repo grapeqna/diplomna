@@ -66,17 +66,7 @@ if (figma.editorType === 'figma') {
       //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
     }
 
-    // if (msg.type === 'save') {
-
-    //   if (figma.currentPage.selection.length == 0) {
-    //     figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
-    //   }
-    //   else {
-    //     const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
-    //     const imageBlob = new Blob([imageBytes], { type: 'image/png' })
-    //     saveAs(imageBlob, 'file-name.png')
-    //   }
-    // }
+    if (msg.type === 'save') {}
 
     if (msg.type === 'close') {
       figma.closePlugin()
