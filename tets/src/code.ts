@@ -1,18 +1,19 @@
 import { saveAs } from 'file-saver';
+// import 'file-saver' 
 if (figma.editorType === 'figma') {
-  figma.showUI(__uiFiles__.main, { themeColors: true, })
+  figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
+  //nz traa opravq da ne se scrollva
 
   // figma.currentPage.children
   const comps: ComponentNode[] = [];
-  for(const i in comps)
-    {
-      figma.flatten(comps[i].children)
-      // if(figma.currentPage.children.includes(comps[i]))
-      // {
-        
-      //   // figma.currentPage.children.
-      // }
-    }
+  for (const i in comps) {
+    figma.flatten(comps[i].children)
+    // if(figma.currentPage.children.includes(comps[i]))
+    // {
+
+    //   // figma.currentPage.children.
+    // }
+  }
 
 
   figma.ui.onmessage = async msg => {
@@ -26,7 +27,7 @@ if (figma.editorType === 'figma') {
       layer.resize(1280, 720);
       layer.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
       figma.currentPage.appendChild(layer);
-      
+
     }
 
     if (msg.type === 'create-layer') {
@@ -66,11 +67,14 @@ if (figma.editorType === 'figma') {
     }
 
     if (msg.type === 'save') {
+
       if (figma.currentPage.selection.length == 0) {
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
       else {
-          saveAs( await (figma.currentPage.selection[0].exportAsync({ format: 'PNG' })))
+        const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+        const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+        saveAs(imageBlob, 'file-name.png')
       }
     }
 
