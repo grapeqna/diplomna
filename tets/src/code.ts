@@ -59,27 +59,38 @@ if (figma.editorType === 'figma') {
       if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
         figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
-      else{
-        
-        figma.flatten(figma.currentPage.selection)
+      else {
+        for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
+          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name))
+            figma.flatten(figma.currentPage.selection)
+          // figma.currentPage.selection[i].addDevResourceAsync(figma.currentPage.selection[i].children)
+        }
+        //ok gledam izbranite i tozi s nai malko 4islo ostava
+        //dobavqm elementite na drugite v nai malkiq i posle go flattenvam i posle triq ostanalite prazni
 
       }
-      //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
-      //ne6tata v komponentite mozhe da se flttenvat bez problem
-      //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
     }
+    //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
+    //ne6tata v komponentite mozhe da se flttenvat bez problem
+    //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
+  
 
-    if (msg.type === 'save') {}
+  // if (msg.type === 'save') {
+  //   if (figma.currentPage.selection.length == 0) {
+  //          figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+  //        }
+  //        else {}
+  // }
 
-    if (msg.type === 'close') {
-      figma.closePlugin()
-    }
+  if (msg.type === 'close') {
+    figma.closePlugin()
+  }
 
-    if (msg.type === 'back') {
-      figma.showUI(__uiFiles__.main)
-    }
+  if (msg.type === 'back') {
+    figma.showUI(__uiFiles__.main)
+  }
 
-  };
+};
 }
 
 /*You can ask the user to draw with a pencil tool and then convert all newly added vector objects (drawings) into brush strokes. There is no way to make the effect real-time. Only when the user finishes the stroke you can convert it. */
