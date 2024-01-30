@@ -59,8 +59,11 @@ if (figma.editorType === 'figma') {
       if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
         figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
-      else
+      else{
+        
         figma.flatten(figma.currentPage.selection)
+
+      }
       //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
       //ne6tata v komponentite mozhe da se flttenvat bez problem
       //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
