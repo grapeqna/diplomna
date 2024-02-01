@@ -73,24 +73,24 @@ if (figma.editorType === 'figma') {
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
     //ne6tata v komponentite mozhe da se flttenvat bez problem
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
-  
 
-  // if (msg.type === 'save') {
-  //   if (figma.currentPage.selection.length == 0) {
-  //          figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
-  //        }
-  //        else {}
-  // }
 
-  if (msg.type === 'close') {
-    figma.closePlugin()
-  }
+    if (msg.type === 'save') {
+      // if (figma.currentPage.selection.length == 0) {
+      figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+      //  }
+      //  else {}
+    }
 
-  if (msg.type === 'back') {
-    figma.showUI(__uiFiles__.main)
-  }
+    if (msg.type === 'close') {
+      figma.closePlugin()
+    }
 
-};
+    if (msg.type === 'back') {
+      figma.showUI(__uiFiles__.main)
+    }
+
+  };
 }
 
 /*You can ask the user to draw with a pencil tool and then convert all newly added vector objects (drawings) into brush strokes. There is no way to make the effect real-time. Only when the user finishes the stroke you can convert it. */

@@ -122,19 +122,28 @@
   </div>
 </body>
 
-<script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js" crossorigin></script>
-
 <script>
-  async function savePng() {
-    if (figma.currentPage.selection.length == 0) {
-      document.getElementById('popup-save').style.display = 'block'
-      // figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+  function saveAs(blob, filename) {
+    let elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = filename;
+
+    // elem.setAttribute('style', 'display:none;opacity:0;color:transparent;')
+
+    (document.body || document.documentElement).appendChild(elem);
+    if (typeof elem.click === 'function') {
+      elem.click();
     }
     else {
-      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
-      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
-      saveAs(imageBlob, 'file-name.png')
+      elem.target = '_blank';
+      elem.dispatchEvent(new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
     }
+
+    URL.revokeObjectURL(elem.href);
   }
 
   document.getElementById('create').onclick = () => {
@@ -150,10 +159,18 @@
     parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
   }
 
-  document.getElementById('save').onclick = () => {
-    savePng()
-    // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
-    document.getElementById('popup').style.display = 'none'
+  document.getElementById('save').onclick = async () => {
+    if (figma.currentPage.selection.lenght === 0 || figma.currentPage.type != 'FRAME') {
+      parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+    }
+    else {
+      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      let name = figma.currentPage.selection[0].name
+      saveAs(imageBlob, names)
+      // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+      document.getElementById('popup').style.display = 'none'
+    }
   }
 
   document.getElementById('layers-look').onclick = () => {

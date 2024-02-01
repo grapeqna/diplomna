@@ -52,3 +52,57 @@
     //     saveAs(imageBlob, 'file-name.png')
     //   }
     // }
+
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js" crossorigin></script>
+
+<script>
+  async function savePng() {
+    if (figma.currentPage.selection.length == 0) {
+      document.getElementById('popup-save').style.display = 'block'
+      // figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
+    }
+    else {
+      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      saveAs(imageBlob, 'file-name.png')
+    }
+  }
+
+ function saveAs(blob, filename) {
+    // Create an anchor element
+    let elem = window.document.createElement('a');
+
+    // Set the anchor element's href attribute to a URL representing the Blob object
+    elem.href = window.URL.createObjectURL(blob);
+
+    // Set the anchor element's download attribute to the desired file name
+    elem.download = filename;
+
+    // Optional: Set some styles to hide the anchor element
+    // elem.setAttribute('style', 'display:none;opacity:0;color:transparent;')
+
+    // Append the anchor element to the body of the current document
+    (document.body || document.documentElement).appendChild(elem);
+
+    // If the anchor element has a click function, call it
+    if (typeof elem.click === 'function') {
+      elem.click();
+    }
+    // If not, dispatch a mouse event with the type 'click'
+    else {
+      elem.target = '_blank';
+      elem.dispatchEvent(new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
+    }
+
+    // Revoke the object URL created earlier
+    URL.revokeObjectURL(elem.href);
+
+    /* Once the object URL is no longer needed, it is a good idea to revoke it to avoid using up
+    unnecessary memory and resources. This is especially important in situations where you are 
+    creating and revoking many object URLs in a short period of time, as is the case in this code. */
+
+  }
