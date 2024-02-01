@@ -55,28 +55,29 @@ if (figma.editorType === 'figma') {
       //mozhe bi na otdelni butona idk
     }
 
-    if (msg.type === 'merge') {
-      if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
-        figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
-      }
-      else {
-        for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
-          {
-            let children = ('COMPONENT')figma.currentPage.selection[i].children
-            figma.currentPage.selection[i++].appendChild(children)
-            figma.flatten(figma.currentPage.selection[i++])
-            figma.remove(figma.currentPage.selection[i])
-          } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
-          else {
-            let children = ('COMPONENT')figma.currentPage.selection[i++].children
-            figma.currentPage.selection[i].appendChild(children)
-            figma.flatten(figma.currentPage.selection[i])
-            figma.remove(figma.currentPage.selection[i++])
-          }
-        }
-      }
-    }
+    // if (msg.type === 'merge') {
+    //   if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
+    //     figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
+    //   }
+    //   else {
+    //     for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
+    //       if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
+    //       {
+    //         let kids = (figma.currentPage.selection[i] as ComponentNode).children
+    //         // let kids = figma.currentPage.selection[i].children
+    //         (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
+    //         figma.flatten(figma.currentPage.selection[i++])
+    //         figma.remove(figma.currentPage.selection[i])
+    //       } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
+    //       else {
+    //         let children = (figma.currentPage.selection[i++] as ComponentNode).children
+    //         figma.currentPage.selection[i].appendChild(children)
+    //         figma.flatten(figma.currentPage.selection[i])
+    //         figma.remove(figma.currentPage.selection[i++])
+    //       }
+    //     }
+    //   }
+    // }
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
     //ne6tata v komponentite mozhe da se flttenvat bez problem
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
