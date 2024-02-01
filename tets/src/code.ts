@@ -61,15 +61,20 @@ if (figma.editorType === 'figma') {
       }
       else {
         for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') {
-            let children = figma.currentPage.selection[i++].stuckNodes
-            figma.flatten(figma.currentPage.selection)
+          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
+          {
+            let children = ('COMPONENT')figma.currentPage.selection[i].children
+            figma.currentPage.selection[i++].appendChild(children)
+            figma.flatten(figma.currentPage.selection[i++])
+            figma.remove(figma.currentPage.selection[i])
+          } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
+          else {
+            let children = ('COMPONENT')figma.currentPage.selection[i++].children
+            figma.currentPage.selection[i].appendChild(children)
+            figma.flatten(figma.currentPage.selection[i])
+            figma.remove(figma.currentPage.selection[i++])
           }
-          // figma.currentPage.selection[i].addDevResourceAsync(figma.currentPage.selection[i].children)
         }
-        //ok gledam izbranite i tozi s nai malko 4islo ostava
-        //dobavqm elementite na drugite v nai malkiq i posle go flattenvam i posle triq ostanalite prazni
-
       }
     }
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
