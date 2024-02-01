@@ -159,29 +159,31 @@
     parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
   }
 
-  document.getElementById('save').onclick = async () => {
-    if (figma.currentPage.selection.lenght === 0 || figma.currentPage.type != 'FRAME') {
-      parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
-    }
-    else {
-      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
-      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
-      let name = figma.currentPage.selection[0].name
-      saveAs(imageBlob, names)
-      // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
-      document.getElementById('popup').style.display = 'none'
-    }
+  document.getElementById('save').onclick = /*async*/ () => {
+    // if (figma.currentPage.selection.length === 0 || figma.currentPage.type != 'FRAME') {
+    parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+    // }
+    // else {
+
+    // parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
+    document.getElementById('popup').style.display = 'none'
+    // }
   }
 
   document.getElementById('layers-look').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'layers-look' } }, '*')
   }
 
-  window.onmessage = (msg) => {
+  window.onmessage = async (msg) => {
     if (msg.data.pluginMessage.type === 'cant-save') {
       document.getElementById('popup-save').style.display = 'block'
     }
-
+    if (msg.data.pluginMessage.type === 'can-save') {
+      const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      let name = figma.currentPage.selection[0].name
+      saveAs(imageBlob, names)
+    }
   }
 
   // document.getElementById('brush').onclick =() =>{
