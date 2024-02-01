@@ -61,8 +61,10 @@ if (figma.editorType === 'figma') {
       }
       else {
         for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name))
+          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') {
+            let children = figma.currentPage.selection[i++].stuckNodes
             figma.flatten(figma.currentPage.selection)
+          }
           // figma.currentPage.selection[i].addDevResourceAsync(figma.currentPage.selection[i].children)
         }
         //ok gledam izbranite i tozi s nai malko 4islo ostava
