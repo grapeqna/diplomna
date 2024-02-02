@@ -106,3 +106,24 @@
     creating and revoking many object URLs in a short period of time, as is the case in this code. */
 
   }
+
+   // if(figma.currentPage.children.includes(comps[i]))
+    // {
+
+    //   // figma.currentPage.children.
+    // }
+
+
+          // console.log(comps.length)
+          //comp.name= comps.length.toString();
+          //figma.currentPage.appendChild(comp);
+
+.figma-light body {
+    background-color: white;
+    color: blue;
+  }
+  
+  .figma-dark body {
+    background-color: black;
+    color: red;
+  }

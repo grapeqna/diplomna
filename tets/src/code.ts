@@ -1,5 +1,3 @@
-// import { saveAs } from 'file-saver';
-// import 'file-saver' 
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
   //nz traa opravq da ne se scrollva
@@ -8,11 +6,6 @@ if (figma.editorType === 'figma') {
   const comps: ComponentNode[] = [];
   for (const i in comps) {
     figma.flatten(comps[i].children)
-    // if(figma.currentPage.children.includes(comps[i]))
-    // {
-
-    //   // figma.currentPage.children.
-    // }
   }
 
 
@@ -39,9 +32,6 @@ if (figma.editorType === 'figma') {
           node.appendChild(comp);
           comps.push(comp);
           comp.name = node.children.length.toString();
-          // console.log(comps.length)
-          //comp.name= comps.length.toString();
-          //figma.currentPage.appendChild(comp);
         }
       }
 
@@ -55,29 +45,28 @@ if (figma.editorType === 'figma') {
       //mozhe bi na otdelni butona idk
     }
 
-    if (msg.type === 'merge') {
-      if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
-        figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
-      }
-      else {
-        for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
-          {
-            let kids = (figma.currentPage.selection[i] as ComponentNode).children
-            // let kids = figma.currentPage.selection[i].children
-            (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
-            figma.flatten(figma.currentPage.selection[i++])
-            figma.currentPage.selection[i].remove
-          } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
-          else {
-            let kids = (figma.currentPage.selection[i++] as ComponentNode).children
-            (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
-            figma.flatten(figma.currentPage.selection[i])
-            figma.remove(figma.currentPage.selection[i++])
-          }
-        }
-      }
-    }
+    // if (msg.type === 'merge') {
+    //   if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
+    //     figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
+    //   }
+    //   else {
+    //     for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
+    //       if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
+    //       {
+    //         let kids = (figma.currentPage.selection[i] as ComponentNode).children
+    //         (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
+    //         figma.flatten(figma.currentPage.selection[i++])
+    //         figma.currentPage.selection[i].remove
+    //       } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
+    //       else {
+    //         let kids = (figma.currentPage.selection[i++] as ComponentNode).children
+    //         (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
+    //         figma.flatten(figma.currentPage.selection[i])
+    //         figma.currentPage.selection[i++].remove
+    //       }
+    //     }
+    //   }
+    // }
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
     //ne6tata v komponentite mozhe da se flttenvat bez problem
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
