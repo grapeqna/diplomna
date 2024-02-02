@@ -74,9 +74,14 @@ if (figma.editorType === 'figma') {
 
     if (msg.type === 'save') {
       if (figma.currentPage.selection.length === 0 || figma.currentPage.selection[0].type != 'FRAME') {
+        
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
-      else { figma.ui.postMessage({ type: 'can-save' }, { origin: "*" }) }
+      else { 
+        const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
+        let name = figma.currentPage.selection[0].name
+
+        figma.ui.postMessage({ type: 'can-save' , imageBytes, name}, { origin: "*" }) }
     }
 
     if (msg.type === 'close') {
