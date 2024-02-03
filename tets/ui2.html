@@ -113,7 +113,7 @@
     display: inline-block;
   }
 
-  .drop-btn{
+  .drop-btn {
     width: 100%;
     height: 10%;
     background-color: #5C5470;
@@ -198,6 +198,28 @@
 </body>
 
 <script>
+  function saveAs(blob, filename) {
+    let elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = filename;
+
+    // elem.setAttribute('style', 'display:none;opacity:0;color:transparent;')
+
+    (document.body || document.documentElement).appendChild(elem);
+    if (typeof elem.click === 'function') {
+      elem.click();
+    }
+    else {
+      elem.target = '_blank';
+      elem.dispatchEvent(new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
+    }
+
+    URL.revokeObjectURL(elem.href);
+  }
 
   document.getElementById('create').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
@@ -210,7 +232,7 @@
   document.getElementById('sharpness').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   }
-  
+
   document.getElementById('inverted').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   }
@@ -227,9 +249,9 @@
     parent.postMessage({ pluginMessage: { type: 'back' } }, '*')
   }
 
-  document.getElementById('save').onclick = () => {
+  document.getElementById('save').onclick = /*async*/ () => {
     parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
-    document.getElementById('popup').style.display = 'none'
+    document.getElementById('popup-save').style.display = 'none'
   }
 
   window.onmessage = (msg) => {
@@ -239,6 +261,13 @@
 
     if (msg.data.pluginMessage.type === 'cant-save') {
       document.getElementById('popup-save').style.display = 'block'
+    }
+
+    if (msg.data.pluginMessage.type === 'can-save') {
+      const imageBytes = msg.data.pluginMessage.imageBytes
+      const name = msg.data.pluginMessage.name
+      const imageBlob = new Blob([imageBytes], { type: 'image/png' })
+      saveAs(imageBlob, name)
     }
 
   }
@@ -260,5 +289,6 @@
       }
     }
   }
+
 
 </script>
