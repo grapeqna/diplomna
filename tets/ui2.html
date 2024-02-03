@@ -175,9 +175,9 @@
   <div class="dropdown">
     <button onclick="myFunction()" class="button">Add filter</button>
     <div id="myDropdown" class="dropdown-content">
-      <button id="drop-btn" class="drop-btn">Blur</button>
-      <button id="drop-btn" class="drop-btn">Sharpness</button>
-      <button id="drop-btn" class="drop-btn">Inverted</button>
+      <button id="blur" class="drop-btn">Blur</button>
+      <button id="sharpness" class="drop-btn">Sharpness</button>
+      <button id="inverted" class="drop-btn">Inverted</button>
     </div>
   </div>
 
@@ -203,9 +203,20 @@
     parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   }
 
-  document.getElementById('filter').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'filter' } }, '*')
+  document.getElementById('blur').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   }
+
+  document.getElementById('sharpness').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
+  }
+  
+  document.getElementById('inverted').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
+  }
+  // document.getElementById('filter').onclick = () => {
+  //   parent.postMessage({ pluginMessage: { type: 'filter' } }, '*')
+  // }
 
   document.getElementById('merge').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'merge' } }, '*')

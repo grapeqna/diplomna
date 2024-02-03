@@ -40,9 +40,16 @@ if (figma.editorType === 'figma') {
       figma.showUI(__uiFiles__.secondary)
     }
 
-    if (msg.type === 'filter') {
-      //user traa selectne layer il da kazhe da se slozhi na vsi4ki
-      //mozhe bi na otdelni butona idk
+    if(msg.type === 'blur'){
+      figma.createEffectStyle
+    }
+
+    if(msg.type === 'sharpness'){
+
+    }
+
+    if (msg.type === 'inverted') {
+     
     }
 
     // if (msg.type === 'merge') {
