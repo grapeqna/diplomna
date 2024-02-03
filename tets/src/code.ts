@@ -8,6 +8,11 @@ if (figma.editorType === 'figma') {
     figma.flatten(comps[i].children)
   }
 
+  function clone(val: readonly SceneNode[]) {
+    let clone: SceneNode[]
+    clone = val.slice()
+    return clone
+  }
 
   figma.ui.onmessage = async msg => {
 
@@ -40,40 +45,45 @@ if (figma.editorType === 'figma') {
       figma.showUI(__uiFiles__.secondary)
     }
 
-    if(msg.type === 'blur'){
+    if (msg.type === 'blur') {
+      let layers = figma.currentPage.selection
       figma.createEffectStyle
     }
 
-    if(msg.type === 'sharpness'){
+    if (msg.type === 'sharpness') {
 
     }
 
     if (msg.type === 'inverted') {
-     
+
     }
 
-    // if (msg.type === 'merge') {
-    //   if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
-    //     figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
-    //   }
-    //   else {
-    //     for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-    //       if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') 
-    //       {
-    //         let kids = (figma.currentPage.selection[i] as ComponentNode).children
-    //         (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
-    //         figma.flatten(figma.currentPage.selection[i++])
-    //         figma.currentPage.selection[i].remove
-    //       } //nz za6to vsi4ko e gre6ka pls help kato logika trqbva da e vqrno 
-    //       else {
-    //         let kids = (figma.currentPage.selection[i++] as ComponentNode).children
-    //         (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids)
-    //         figma.flatten(figma.currentPage.selection[i])
-    //         figma.currentPage.selection[i++].remove
-    //       }
-    //     }
-    //   }
-    // }
+    if (msg.type === 'merge') {
+      if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
+        figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
+      }
+      else {
+        for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
+          if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT') {
+
+            let kids: SceneNode[] = clone((figma.currentPage.selection[i] as ComponentNode).children);
+            for (let j = 0; j < kids.length; j++) {
+              (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids[j])
+            }
+            figma.flatten((figma.currentPage.selection[i++] as ComponentNode).children)
+            figma.currentPage.selection[i].remove
+          } 
+          else {
+            let kids: SceneNode[] = clone((figma.currentPage.selection[i++] as ComponentNode).children);
+            for (let j = 0; j < kids.length; j++) {
+              (figma.currentPage.selection[i] as ComponentNode).appendChild(kids[j])
+            }
+            figma.flatten((figma.currentPage.selection[i] as ComponentNode).children)
+            figma.currentPage.selection[i++].remove
+          }
+        }
+      }
+    }
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
     //ne6tata v komponentite mozhe da se flttenvat bez problem
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
@@ -81,14 +91,15 @@ if (figma.editorType === 'figma') {
 
     if (msg.type === 'save') {
       if (figma.currentPage.selection.length === 0 || figma.currentPage.selection[0].type != 'FRAME') {
-        
+
         figma.ui.postMessage({ type: 'cant-save' }, { origin: "*" })
       }
-      else { 
+      else {
         const imageBytes = await figma.currentPage.selection[0].exportAsync({ format: 'PNG' })
         let name = figma.currentPage.selection[0].name
 
-        figma.ui.postMessage({ type: 'can-save' , imageBytes, name}, { origin: "*" }) }
+        figma.ui.postMessage({ type: 'can-save', imageBytes, name }, { origin: "*" })
+      }
     }
 
     if (msg.type === 'close') {
