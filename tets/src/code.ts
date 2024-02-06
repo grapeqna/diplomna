@@ -50,15 +50,48 @@ if (figma.editorType === 'figma') {
       figma.createEffectStyle
     }
 
-    if (msg.type === 'sharpness') {
+    // if (msg.type === 'sharpness') {
 
-    }
+    // }
 
-    if (msg.type === 'inverted') {
+    // if (msg.type === 'inverted') {
 
-    }
+    // }
+
+    // if (msg.type === 'merge') {
+    //   let layers: SceneNode[] = clone(figma.currentPage.selection)
+    //   if (layers.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
+    //     figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
+    //   }
+    //   else {
+    //     for (let i = 0; i < layers.length - 1; i++) {
+    //       if (parseInt(layers[i].name) > parseInt(layers[i++].name) && layers[i].type === 'COMPONENT' && layers[i++].type === 'COMPONENT')
+    //       //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
+    //      {
+    //         let kids: SceneNode[] = clone((layers[i] as ComponentNode).children);
+    //         for (let j = 0; j < kids.length; j++) {
+    //           (layers[i++] as ComponentNode).appendChild(kids[j])
+    //         }
+    //         //prisuedinqvame decatana po-golemiq sloi v malkiq sloi
+    //         figma.flatten((layers[i++] as ComponentNode).children)
+    //         layers[i].remove //mahame po golemiq sloi, 4iito deca ve4e trqbwa da sa w drugiq sloi
+
+    //       }
+    //       else {
+    //         //su6toto no ako i++ e po golqmo
+    //         let kids: SceneNode[] = clone((figma.currentPage.selection[i++] as ComponentNode).children);
+    //         for (let j = 0; j < kids.length; j++) {
+    //           (figma.currentPage.selection[i] as ComponentNode).appendChild(kids[j])
+    //         }
+    //         figma.flatten((figma.currentPage.selection[i] as ComponentNode).children)
+    //         figma.currentPage.selection[i++].remove
+    //       }
+    //     }
+    //   }
+    // }
 
     if (msg.type === 'merge') {
+      let layers: SceneNode[] = clone(figma.currentPage.selection)
       if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
         figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
