@@ -1,3 +1,4 @@
+import { Color } from "./Color";
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
   //nz traa opravq da ne se scrollva
@@ -66,21 +67,33 @@ if (figma.editorType === 'figma') {
           for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
-              // child.effects = [{ type: 'LAYER_BLUR', radius: 10, visible: true }];
+              // podlezhi na korekciq
               child.effects = [{ type: 'BACKGROUND_BLUR', radius: 10, visible: true }];
-
             }
           }
         }
     }
 
-    // if (msg.type === 'sharpness') {
+    function invertColor(color: Color) { 
+      color.r=1-color.r;
+      color.g=1-color.g;
+      color.b=1-color.b;
 
-    // }
+      return color;
+    }
 
-    // if (msg.type === 'inverted') {
+    if (msg.type === 'inverted') {
+      for (let i = 0; i <= figma.currentPage.selection.length; i++)
+        if (figma.currentPage.selection[i].type === 'COMPONENT') {
+          for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
+            if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
+              || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
 
-    // }
+              
+            }
+          }
+        }
+    }
 
     // if (msg.type === 'merge') {
     //   let layers: SceneNode[] = clone(figma.currentPage.selection)
