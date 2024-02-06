@@ -244,7 +244,7 @@
 
   document.getElementById('merge').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'merge' } }, '*')
-    document.getElementById('popup').style.display = 'none'
+    document.getElementById('popup-merge').style.display = 'none'
   }
 
   document.getElementById('back').onclick = () => {
