@@ -127,3 +127,9 @@
     background-color: black;
     color: red;
   }
+
+  // ef.type='LAYER-BLUR'
+      // ef.type = 
+      // figma.currentPage.selection[0].
+      // let layers = figma.currentPage.selection
+      // figma.createEffectStyle

@@ -169,17 +169,18 @@
 
   <h2 class="title">Layer management</h2>
   <button id="create" class="button">New layer</button>
-  <button id="filter" class="button">Add filter</button>
-  <button id="merge" class="button">Merge layers</button>
-
   <div class="dropdown">
-    <button onclick="myFunction()" class="button">Add filter</button>
+    <button id="filter" onclick="myFunction()" class="button">Add filter</button>
     <div id="myDropdown" class="dropdown-content">
-      <button id="blur" class="drop-btn">Blur</button>
-      <button id="sharpness" class="drop-btn">Sharpness</button>
+      <button id="blur" class="drop-btn">Blur layer</button>
+      <button id="background-blur" class="drop-btn">Blur background</button>
       <button id="inverted" class="drop-btn">Inverted</button>
     </div>
   </div>
+  <!-- <button id="filter" class="button">Add filter</button> -->
+  <button id="merge" class="button">Merge layers</button>
+
+  
 
   <div class="popup" id="popup-merge">
     <p class="popup-text">Make sure to select at least two layers
@@ -226,16 +227,17 @@
   }
 
   document.getElementById('blur').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'blur' } }, '*')
   }
 
-  // document.getElementById('sharpness').onclick = () => {
+  document.getElementById('background-blur').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'background-blur' } }, '*')
+  }
+  
+  // document.getElementById('blur').onclick = () => {
   //   parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
   // }
 
-  // document.getElementById('inverted').onclick = () => {
-  //   parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
-  // }
   // document.getElementById('filter').onclick = () => {
   //   parent.postMessage({ pluginMessage: { type: 'filter' } }, '*')
   // }
