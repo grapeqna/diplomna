@@ -133,3 +133,62 @@
       // figma.currentPage.selection[0].
       // let layers = figma.currentPage.selection
       // figma.createEffectStyle
+
+  
+/*export const invertImage = async (node: ImagePaint) => {
+      const newFills = [];
+    
+      const image = figma.getImageByHash(node.imageHash);
+      const bytes = await image.getBytesAsync();
+    
+      figma.showUI(__html__, { visible: false });
+    
+      figma.ui.postMessage({ type: 'invert-image', data: { bytes } });
+    
+      const newBytes: Uint8Array = await new Promise((resolve) => {
+        figma.ui.onmessage = (
+          message: MessageEvent & { data: { bytes: Uint8Array } }
+        ) => {
+          // console.log({ message });
+          if (message.type === 'invert-image') {
+            resolve(message.data.bytes);
+          }
+        };
+      });
+    
+      const newPaint = JSON.parse(JSON.stringify(node));
+    
+      newPaint.imageHash = figma.createImage(newBytes).hash;
+      newFills.push(newPaint);
+    
+      return newFills;
+    };*/
+
+// let color :RGB = {r:fill.gradientTransform[0][0], g:fill.gradientTransform[0][1], b:fill.gradientTransform[0][2]}
+// let color2: RGB = { r: fill.gradientTransform[1][0], g: fill.gradientTransform[1][1], b: fill.gradientTransform[1][2] }
+// let color: RGB = { r: fill.gradientStops[1].color.r, g: fill.gradientTransform[0][1], b: fill.gradientTransform[0][2] }
+                   
+  // }
+              //  if (child.type === 'ELLIPSE' || child.type === 'LINE'
+              //    || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
+              //     child.fills
+
+              // }
+
+  // if (child.type === 'VECTOR') {
+              //   const fills = clone(child.fills);
+                // fills.forEach((fill) => {
+                //   if (fill.type === 'SOLID') {
+                //     let color = clone_colors(fill.color)
+                //     fill.color = invertColor(color)
+
+                //   } else if (fill.type === 'GRADIENT_LINEAR') {
+                //     console.log('Gradient fill:', fill.gradientStops);
+                //   } else if (fill.type === 'IMAGE') {
+                //     console.log('Image fill:', fill.imageRef);
+                //   }
+                //   // Add handling for other fill types as needed
+                // });
+              // }
+              // if (child.type === 'RECTANGLE') {
+                // const fills = clone(child.fills);
