@@ -122,8 +122,10 @@ if (figma.editorType === 'figma') {
 
                       let stop = clone_colorStop(fill.gradientStops)
                       // let color = clone_colors(stop[i].color)
-                      // let color = invertColor(stop[i].color)
-                      stop[i].color=invertColor(stop[i].color)
+                      let color = (invertColor(stop[i].color) as Mutable<RGB>)
+                      // stop[i].color=invertColor(stop[i].color)
+                      stop[i].color=color
+
                     }
 
                   }
