@@ -192,3 +192,13 @@
               // }
               // if (child.type === 'RECTANGLE') {
                 // const fills = clone(child.fills);
+
+
+    // const frame_exist: { value: boolean } = { value: false };
+    // const frame = figma.createNodeFromSvg('FRAME');
+
+      // function clone_colors(val: readonly Paint[]) {
+  //   let clone: Paint[]
+  //   clone = val.slice()
+  //   return clone
+  // }

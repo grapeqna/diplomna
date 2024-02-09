@@ -1,4 +1,7 @@
-import { Color } from "./Color";
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+};
+
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
   //nz traa opravq da ne se scrollva
@@ -19,19 +22,15 @@ if (figma.editorType === 'figma') {
     return { ...val };
   }
 
-  // function clone_colors(val: readonly Paint[]) {
-  //   let clone: Paint[]
-  //   clone = val.slice()
-  //   return clone
+  // function clone_colorStop(val: readonly ColorStop[]) {
+  //   let c = val.slice()
+  //   return c
   // }
 
   figma.ui.onmessage = async msg => {
 
-    // const frame_exist: { value: boolean } = { value: false };
-    // const frame = figma.createNodeFromSvg('FRAME');
 
     if (msg.type === 'create') {
-      // figma.showUI(__uiFiles__.third)
       const layer = figma.createFrame();
       layer.resize(1280, 720);
       layer.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
@@ -84,13 +83,17 @@ if (figma.editorType === 'figma') {
         }
     }
 
-    // TODO improve types
     const clone = <T extends symbol | readonly Paint[] | readonly Effect[]>(
       node: T
     ): T => {
       return JSON.parse(JSON.stringify(node));
     };
 
+    const clone_colorStop = <T extends ColorStop[]>(
+      node: unknown
+    ): T => {
+      return JSON.parse(JSON.stringify(node));
+    };
 
 
     function invertColor(color: RGB) {
@@ -116,8 +119,11 @@ if (figma.editorType === 'figma') {
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
                     for (let i = 0; i < fill.gradientStops.length; i++) {
-                      let color: RGB = fill.gradientStops[i].color
-                      fill.gradientStops[i].color = invertColor(color)
+
+                      let stop = clone_colorStop(fill.gradientStops)
+                      // let color = clone_colors(stop[i].color)
+                      // let color = invertColor(stop[i].color)
+                      stop[i].color=invertColor(stop[i].color)
                     }
 
                   }
