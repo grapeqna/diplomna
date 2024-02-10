@@ -113,7 +113,9 @@ if (figma.editorType === 'figma') {
                 fills.forEach((fill) => {
                   if (fill.type === 'SOLID') {
                     let color = clone_colors(fill.color)
-                    const update = figma.util.solidPaint(invertColor(color), fill)
+                    /*const update =*/ figma.util.solidPaint(invertColor(color), fill)
+                    child.fills = fills
+
                   }
                   if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
@@ -126,6 +128,8 @@ if (figma.editorType === 'figma') {
                       let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop[i].color.a }
                       stop[i].color = colorRGBA
 
+                      fill.gradientStops = stop
+                      child.fills = fills
 
                     }
 
