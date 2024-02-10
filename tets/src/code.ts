@@ -22,6 +22,10 @@ if (figma.editorType === 'figma') {
     return { ...val };
   }
 
+  function clonePaint(val: Paint) {
+    return { ...val }
+  }
+
   // function clone_colorStop(val: readonly ColorStop[]) {
   //   let c = val.slice()
   //   return c
@@ -63,7 +67,7 @@ if (figma.editorType === 'figma') {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
               child.effects = [{ type: 'LAYER_BLUR', radius: 10, visible: true }];
-              // child.effects = [{ type: 'BACKGROUND_BLUR', radius: 10, visible: true }];
+              // da probvam da slozha da blur sloevete nazad ako imam vreme
 
             }
           }
@@ -107,16 +111,20 @@ if (figma.editorType === 'figma') {
           for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
-              const fills = clone(child.fills);
+              // let fills = clone(child.fills)
 
-              if (!(fills === figma.mixed)) {
-                fills.forEach((fill) => {
+              if (!(child.fills === figma.mixed)) {
+                child.fills = child.fills.map((originalFill) => {
+                  let fill = clonePaint(originalFill) as Mutable<Paint>
+
                   if (fill.type === 'SOLID') {
-                    let color = clone_colors(fill.color)
-                    /*const update =*/ figma.util.solidPaint(invertColor(color), fill)
-                    child.fills = fills
-
+                    figma.util.solidPaint(invertColor(fill.color), fill)
+                    // fill.color=invertColor(clone_colors(fill.color))
+                    let color= invertColor(clone_colors(fill.color))
+                    fill.color={r:color.r, b:color.b, g:color.g}
+                    return fill
                   }
+
                   if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
@@ -126,17 +134,15 @@ if (figma.editorType === 'figma') {
                       let color = (invertColor(stop[i].color) as Mutable<RGB>)
                       color = invertColor(color)
                       let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop[i].color.a }
+
                       stop[i].color = colorRGBA
-
-                      // fill.gradientStops = stop
-                      child.fills = fills
-
+                      return fill
                     }
 
                   }
-                }
-                );
 
+                  return fill
+                })
               }
 
             }
@@ -156,7 +162,7 @@ if (figma.editorType === 'figma') {
           if (parseInt(layers[i].name) > parseInt(layers[i++].name) && layers[i].type === 'COMPONENT' && layers[i++].type === 'COMPONENT')
           //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
           {
-            let kids: SceneNode[] = clone_layer((layers[i] as ComponentNode).children);
+            let kids: SceneNode[] = clone_layer((layers[i] as ComponentNode).children) as Mutable<SceneNode>[];
             for (let j = 0; j < kids.length; j++) {
               (layers[i++] as ComponentNode).appendChild(kids[j])
             }
@@ -167,7 +173,7 @@ if (figma.editorType === 'figma') {
           }
           else {
             //su6toto no ako i++ e po golqmo
-            let kids: SceneNode[] = clone_layer((layers[i++] as ComponentNode).children);
+            let kids: SceneNode[] = clone_layer((layers[i++] as ComponentNode).children) as Mutable<SceneNode>[];
             for (let j = 0; j < kids.length; j++) {
               (layers[i] as ComponentNode).appendChild(kids[j])
             }
@@ -179,41 +185,11 @@ if (figma.editorType === 'figma') {
       }
     }
 
-    // if (msg.type === 'merge') {
-    //   let layers: SceneNode[] = clone(figma.currentPage.selection)
-    //   if (figma.currentPage.selection.length < 2) { // figma.ui.postMessage({ type: 'not-selected'}, );
-    //     figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
-    //   }
-    //   else {
-    //     for (let i = 0; i < figma.currentPage.selection.length - 1; i++) {
-    //       if (parseInt(figma.currentPage.selection[i].name) > parseInt(figma.currentPage.selection[i++].name) && figma.currentPage.selection[i].type === 'COMPONENT' && figma.currentPage.selection[i++].type === 'COMPONENT')
-    //       //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
-    //       {
-    //         let kids: SceneNode[] = clone((figma.currentPage.selection[i] as ComponentNode).children);
-    //         for (let j = 0; j < kids.length; j++) {
-    //           (figma.currentPage.selection[i++] as ComponentNode).appendChild(kids[j])
-    //         }
-    //         //prisuedinqvame decatana po-golemiq sloi v malkiq sloi
-    //         figma.flatten((figma.currentPage.selection[i++] as ComponentNode).children)
-    //         figma.currentPage.selection[i].remove //mahame po golemiq sloi, 4iito deca ve4e trqbwa da sa w drugiq sloi
-    //       }
-    //       else {
-    //         //su6toto no ako i++ e po golqmo
-    //         let kids: SceneNode[] = clone((figma.currentPage.selection[i++] as ComponentNode).children);
-    //         for (let j = 0; j < kids.length; j++) {
-    //           (figma.currentPage.selection[i] as ComponentNode).appendChild(kids[j])
-    //         }
-    //         figma.flatten((figma.currentPage.selection[i] as ComponentNode).children)
-    //         figma.currentPage.selection[i++].remove
-    //       }
-    //     }
-    //   }
-    // }
     //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
     //ne6tata v komponentite mozhe da se flttenvat bez problem
-    //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
+    //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq
 
-    if(msg.type === 'canvas'){
+    if (msg.type === 'canvas') {
       figma.showUI(__uiFiles__.third, { width: 800, height: 1000 })
     }
 
