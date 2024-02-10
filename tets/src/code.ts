@@ -128,7 +128,7 @@ if (figma.editorType === 'figma') {
                       let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop[i].color.a }
                       stop[i].color = colorRGBA
 
-                      fill.gradientStops = stop
+                      // fill.gradientStops = stop
                       child.fills = fills
 
                     }
@@ -213,6 +213,9 @@ if (figma.editorType === 'figma') {
     //ne6tata v komponentite mozhe da se flttenvat bez problem
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq (ask mario)
 
+    if(msg.type === 'canvas'){
+      figma.showUI(__uiFiles__.third)
+    }
 
     if (msg.type === 'save') {
       if (figma.currentPage.selection.length === 0 || figma.currentPage.selection[0].type != 'FRAME') {

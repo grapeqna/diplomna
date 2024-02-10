@@ -108,9 +108,10 @@
 
   <button id="create" class="button">New</button>
   <button id="layers-look" class="button">View layer options</button>
-  <button id="brush" class="button">Brush</button>
+  <button id="canvas" class="button">Open canvas</button>
+  <!-- <button id="brush" class="button">Brush</button>
   <button id="eraser" class="button">Eraser</button>
-  <button id="bucket" class="button">Bucket</button>
+  <button id="bucket" class="button">Bucket</button> -->
 
   <div class="popup" id="popup-save">
     <p class="popup-text">Make sure to select the frame you want to save and try again</p>
@@ -166,6 +167,10 @@
 
   document.getElementById('layers-look').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'layers-look' } }, '*')
+  }
+
+  document.getElementById('canvas').onclick =()=>{
+    parent.postMessage({pluginMessage:{type: 'canvas'}},'*')
   }
 
   window.onmessage = (msg) => {

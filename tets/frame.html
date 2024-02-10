@@ -1,50 +1,99 @@
-<!-- <link rel="stylesheet" href="styles.css"> -->
+<style>
+.colorButtons {
+  display: block;
+  margin: 20px 0;
+}
+
+canvas {
+  cursor: crosshair;
+}
+
+div#sidebar {
+  position: absolute;
+  left: 0;
+  width: 150px;
+  padding: 20px 20px;
+  top: 0;
+}
+
+canvas#canvas {
+  left: 150px;
+  top: 45px;
+}
+
+.btn {
+  margin-bottom: 10px;
+  width: 100%;
+}
+input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.toolsButtons .btn {
+  width: 48%;
+}
+
+.sizeButtons .btn {
+  width: 48%;
+}
+
+.colorpicker {
+  background: transparent;
+  height: 40px;
+}
+</style>
 
 <body style=" background-color: #2E2929; color: #CCCCCC; font-family: 'Lato', serif;">
 
-    <h2>Artify</h2>
-    <!-- <p>Count: <input id="count" type="number" ></p> -->
-    <button id="create">New</button>
-    <button id="close">Close</button>
-    <!-- <button id="Hello">Hello</button> -->
-    <!-- <button id="layer">Layer</button> -->
-    <button id="layers-look">View layer options</button>
-    <!-- <button id="brush">Brush</button>   -->
-    </body>
-    
-    <script>
-    
-    document.getElementById('create').onclick = () => {
-      //suzdavam frame
-      /*const textbox = document.getElementById('count');
-      const count = parseInt(textbox.value, 10);*/
-      //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
-    
-      parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
-    }
-    
-    document.getElementById('close').onclick = () => {
-      parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
-    }
-    
-    //document.getElementById('Hello').onclick =() => {
-      //const h1Element = document.createElement('h1');
-        //  h1Element.textContent = 'Hello ala bala';
-          //document.body.appendChild(h1Element);
-    //parent.postMessage({pluginMessage: {type: 'Hello'} },'*')
-    //}
-    
-    // document.getElementById('layer').onclick =() =>{
-    //   //pravq now layer izpolzvam nov component
-    //   parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
-    // }
-    
-    document.getElementById('layers-look').onclick =() =>{
-      parent.postMessage({pluginMessage:{type:'layers-look'}}, '*')
-    }
-    
-    // document.getElementById('brush').onclick =() =>{
-    //   parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
-    // }
-    </script>
-    
+  <div id="sidebar">
+		<div class="colorButtons">
+			<label for="'colorpicker" >Colour</label>
+			<input type="color" id="colorpicker" value="#c81464" class="colorpicker">
+		</div>
+		<div class="colorButtons">
+			<h3>Bg Color</h3>
+			<input type="color" value="#ffffff" id="bgcolorpicker" class="colorpicker">
+		</div>
+
+</body>
+
+<script>
+
+  document.getElementById('create').onclick = () => {
+    //suzdavam frame
+    /*const textbox = document.getElementById('count');
+    const count = parseInt(textbox.value, 10);*/
+    //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
+
+    parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
+  }
+
+  document.getElementById('close').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+  }
+
+  //document.getElementById('Hello').onclick =() => {
+  //const h1Element = document.createElement('h1');
+  //  h1Element.textContent = 'Hello ala bala';
+  //document.body.appendChild(h1Element);
+  //parent.postMessage({pluginMessage: {type: 'Hello'} },'*')
+  //}
+
+  // document.getElementById('layer').onclick =() =>{
+  //   //pravq now layer izpolzvam nov component
+  //   parent.postMessage({pluginMessage:{type: 'create-layer'}}, '*')
+  // }
+
+  document.getElementById('layers-look').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'layers-look' } }, '*')
+  }
+
+  // document.getElementById('brush').onclick =() =>{
+  //   parent.postMessage({pluginMessage:{type: 'brush'}}, '*')
+  // }
+</script>
