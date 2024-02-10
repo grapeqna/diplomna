@@ -25,11 +25,6 @@ if (figma.editorType === 'figma') {
     return { ...val }
   }
 
-  // function clone_colorStop(val: readonly ColorStop[]) {
-  //   let c = val.slice()
-  //   return c
-  // }
-
   figma.ui.onmessage = async msg => {
 
 
@@ -65,9 +60,8 @@ if (figma.editorType === 'figma') {
           for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
-              child.effects = [{ type: 'LAYER_BLUR', radius: 10, visible: true }];
-              // da probvam da slozha da blur sloevete nazad ako imam vreme
 
+              child.effects = [{ type: 'LAYER_BLUR', radius: 10, visible: true }];
             }
           }
         }
@@ -117,30 +111,28 @@ if (figma.editorType === 'figma') {
                   let fill = clonePaint(originalFill) as Mutable<Paint>
 
                   if (fill.type === 'SOLID') {
-                    figma.util.solidPaint(invertColor(fill.color), fill)
-                    // fill.color=invertColor(clone_colors(fill.color))
-                    let color= invertColor(clone_colors(fill.color))
-                    fill.color={r:color.r, b:color.b, g:color.g}
+                    let color = invertColor(clone_colors(fill.color))
+                    fill.color = { r: color.r, b: color.b, g: color.g }
                     return fill
                   }
 
                   if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
-                    for (let i = 0; i < fill.gradientStops.length; i++) {
-                      fill.gradientStops.map((gradFill)=>{
-                        let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
-                        let color = (invertColor(stop.color) as Mutable<RGB>)
-                        color = invertColor(color)
-                        let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
-  
-                        stop.color = colorRGBA
-                        return stop
-                      })
-                      return fill
-                    }
+                    // for (let i = 0; i < fill.gradientStops.length; i++) {
+                    fill.gradientStops.map((gradFill) => {
+                      let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
+                      let color= clone_colors(stop.color)as Mutable<RGB>
+                      color = invertColor(color) 
+      
+                      stop.color = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
+                      return stop
+                    })
 
+                    return fill
                   }
+
+                  // }
 
                   return fill
                 })

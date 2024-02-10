@@ -248,3 +248,24 @@
                   
                 // }
                 // );
+
+ fill.gradientStops.map((gradFill)=>{
+                        let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
+                        let color = (invertColor(stop.color) as Mutable<RGB>)
+                        color = invertColor(color)
+                        let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
+  
+                        stop.color = colorRGBA
+    return stop
+ })
+
+
+  // function clone_colorStop(val: readonly ColorStop[]) {
+  //   let c = val.slice()
+  //   return c
+  // }
+
+  color = invertColor(color)
+                      let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
+
+                      stop.color = colorRGBA

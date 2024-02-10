@@ -233,14 +233,10 @@
   document.getElementById('background-blur').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'background-blur' } }, '*')
   }
-  
-  // document.getElementById('blur').onclick = () => {
-  //   parent.postMessage({ pluginMessage: { type: 'create-layer' } }, '*')
-  // }
 
-  // document.getElementById('filter').onclick = () => {
-  //   parent.postMessage({ pluginMessage: { type: 'filter' } }, '*')
-  // }
+  document.getElementById('inverted').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'inverted' } }, '*')
+  }
 
   document.getElementById('merge').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'merge' } }, '*')
