@@ -6,7 +6,6 @@ if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
   //nz traa opravq da ne se scrollva
 
-  // figma.currentPage.children
   const comps: ComponentNode[] = [];
   for (const i in comps) {
     figma.flatten(comps[i].children)
@@ -93,7 +92,7 @@ if (figma.editorType === 'figma') {
       return JSON.parse(JSON.stringify(node));
     };
 
-    const clone_colorStop = <T extends ColorStop[]>(
+    const clone_colorStop = <T extends ColorStop>(
       node: unknown
     ): T => {
       return JSON.parse(JSON.stringify(node));
@@ -129,13 +128,15 @@ if (figma.editorType === 'figma') {
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
                     for (let i = 0; i < fill.gradientStops.length; i++) {
-
-                      let stop = (clone_colorStop(fill.gradientStops) as Mutable<ColorStop>[])
-                      let color = (invertColor(stop[i].color) as Mutable<RGB>)
-                      color = invertColor(color)
-                      let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop[i].color.a }
-
-                      stop[i].color = colorRGBA
+                      fill.gradientStops.map((gradFill)=>{
+                        let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
+                        let color = (invertColor(stop.color) as Mutable<RGB>)
+                        color = invertColor(color)
+                        let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
+  
+                        stop.color = colorRGBA
+                        return stop
+                      })
                       return fill
                     }
 
