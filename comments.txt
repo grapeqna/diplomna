@@ -269,3 +269,6 @@
                       let colorRGBA: RGBA = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
 
                       stop.color = colorRGBA
+
+ for (let i = 0; i < fill.gradientStops.length; i++) {
+ }

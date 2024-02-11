@@ -104,7 +104,6 @@ if (figma.editorType === 'figma') {
           for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
-              // let fills = clone(child.fills)
 
               if (!(child.fills === figma.mixed)) {
                 child.fills = child.fills.map((originalFill) => {
@@ -119,21 +118,16 @@ if (figma.editorType === 'figma') {
                   if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
-                    // for (let i = 0; i < fill.gradientStops.length; i++) {
                     fill.gradientStops.map((gradFill) => {
                       let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
-                      let color= clone_colors(stop.color)as Mutable<RGB>
-                      color = invertColor(color) 
-      
+                      let color = (clone_colors(stop.color) as Mutable<RGB>)
+                      color = invertColor(color)
                       stop.color = { r: color.r, b: color.b, g: color.g, a: stop.color.a }
                       return stop
                     })
 
                     return fill
                   }
-
-                  // }
-
                   return fill
                 })
               }
