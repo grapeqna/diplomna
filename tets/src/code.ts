@@ -177,7 +177,7 @@ if (figma.editorType === 'figma') {
     //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq
 
     if (msg.type === 'canvas') {
-      figma.showUI(__uiFiles__.third, { width: 800, height: 1000 })
+      figma.showUI(__uiFiles__.third, { width: 750, height: 600 })
     }
 
     if (msg.type === 'save') {
