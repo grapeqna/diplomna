@@ -115,7 +115,7 @@ if (figma.editorType === 'figma') {
                     return fill
                   }
 
-                  if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
+                  else if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
                     fill.gradientStops.map((gradFill) => {
