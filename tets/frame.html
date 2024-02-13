@@ -55,10 +55,11 @@
     }
 </style>
 
+
 <body style="background-color: #2E2929; color: #CCCCCC; font-family: 'Lato', serif;">
     <div id="sidebar" style="margin-right: 5%;">
         <div class="colorButtons">
-			<h3>pen color</h3>
+            <h3>pen color</h3>
             <input type="color" id="colorpicker" value="#c81464" class="colorpicker">
         </div>
 
@@ -98,26 +99,18 @@
             <input type="button" class="updateSize btn btn-success" value="Update" id="canvasUpdate">
         </div>
 
-        <!-- <div class="Storage">
-            <h3>Storage</h3>
-            <input type="button" value="Save" class="btn btn-warning" id="save">
-            <input type="button" value="Load" class="btn btn-warning" id="load">
-            <input type="button" value="Clear" class="btn btn-warning" id="clearCache">
-        </div> -->
-		
         <div class="extra">
             <h3>Extra</h3>
             <a id="saveToImage" class="btn btn-warning">Download</a>
         </div>
     </div>
-</body>
 
-<!-- <script src="/tets/src/canvas.js"> -->
+    <canvas id="canvas"></canvas>
+</body>
 <script>
     // SETTING ALL VARIABLES
     var isMouseDown = false;
-    var canvas = document.createElement('canvas');
-    var body = document.getElementsByTagName("body")[0];
+    var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var linesArray = [];
     currentSize = 5;
@@ -143,7 +136,7 @@
         currentBg = ctx.fillStyle;
     });
 
-    document.getElementById('bucket').addEventListener('click', function(event) {
+    document.getElementById('bucket').addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default action on click
         // Show bucket color picker when bucket button is clicked
         var bucketColorPicker = document.getElementById('bucketColorPicker');
@@ -152,9 +145,28 @@
         } else {
             bucketColorPicker.style.display = 'none';
         }
+        // Add event listener to canvas for one-time flood fill operation after clicking bucket
+        canvas.addEventListener('click', startBucketFillOnce);
     });
 
-    // Adjusted event listener for the bucket color picker
+    function startBucketFillOnce() {
+        // Remove the one-time event listener after it's executed once
+        canvas.removeEventListener('click', startBucketFillOnce);
+        // Add event listener to perform flood fill operation on canvas click
+        canvas.addEventListener('click', startBucketFill);
+    }
+
+    function startBucketFill(event) {
+        var mousePos = getMousePos(canvas, event);
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var targetColor = getPixelColor(imageData, mousePos.x, mousePos.y);
+        var fillColor = bucketColor;
+        floodFill(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
+        ctx.putImageData(imageData, 0, 0);
+        // Remove the event listener after executing the flood fill operation once
+        canvas.removeEventListener('click', startBucketFill);
+    }
+
     document.getElementById('bucketColorPicker').addEventListener('change', function () {
         bucketColor = this.value;
     });
@@ -168,13 +180,6 @@
     }, false);
     document.getElementById('eraser').addEventListener('click', eraser);
     document.getElementById('clear').addEventListener('click', createCanvas);
-    // document.getElementById('save').addEventListener('click', save);
-    // document.getElementById('load').addEventListener('click', load);
-    // document.getElementById('clearCache').addEventListener('click', function () {
-    //     localStorage.removeItem("savedCanvas");
-    //     linesArray = [];
-    //     console.log("Cache cleared!");
-    // });
 
     // REDRAW
     function redraw() {
@@ -189,22 +194,12 @@
         }
     }
 
-    // DRAWING EVENT HANDLERS
-    canvas.addEventListener('mousedown', function () { mousedown(canvas, event); });
-    canvas.addEventListener('mousemove', function () { mousemove(canvas, event); });
-    canvas.addEventListener('mouseup', mouseup);
-
     // CREATE CANVAS
     function createCanvas() {
-        canvas.id = "canvas";
         canvas.width = parseInt(document.getElementById("sizeX").value);
         canvas.height = parseInt(document.getElementById("sizeY").value);
-        canvas.style.zIndex = 8;
-        canvas.style.position = "absolute";
-        canvas.style.border = "1px solid";
         ctx.fillStyle = currentBg;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        body.appendChild(canvas);
     }
 
     // DOWNLOAD CANVAS
@@ -213,31 +208,11 @@
         link.download = filename;
     }
 
-    // // SAVE FUNCTION
-    // function save() {
-    //     localStorage.removeItem("savedCanvas");
-    //     localStorage.setItem("savedCanvas", JSON.stringify(linesArray));
-    //     console.log("Saved canvas!");
-    // }
-
-    // LOAD FUNCTION
-    function load() {
-        if (localStorage.getItem("savedCanvas") != null) {
-            linesArray = JSON.parse(localStorage.savedCanvas);
-            redraw();
-            console.log("Canvas loaded.");
-        } else {
-            console.log("No canvas in memory!");
-        }
-    }
-
-    // ERASER HANDLING
     function eraser() {
         currentSize = 50;
         currentColor = ctx.fillStyle;
     }
 
-    // GET MOUSE POSITION
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
@@ -246,7 +221,6 @@
         };
     }
 
-    // ON MOUSE DOWN
     function mousedown(canvas, evt) {
         var mousePos = getMousePos(canvas, evt);
         isMouseDown = true;
@@ -258,7 +232,6 @@
         ctx.strokeStyle = currentColor;
     }
 
-    // ON MOUSE MOVE
     function mousemove(canvas, evt) {
         if (isMouseDown) {
             var currentPosition = getMousePos(canvas, evt);
@@ -268,37 +241,9 @@
         }
     }
 
-    // STORE DATA
-    function store(x, y, s, c) {
-        var line = {
-            "x": x,
-            "y": y,
-            "size": s,
-            "color": c
-        }
-        linesArray.push(line);
-    }
-
-    // ON MOUSE UP
     function mouseup() {
         isMouseDown = false;
         store();
-    }
-
-    // FLOOD FILL FUNCTION
-    function startBucketFillOnce() {
-        canvas.removeEventListener('click', startBucketFillOnce);
-        canvas.addEventListener('click', startBucketFill);
-    }
-
-    function startBucketFill(event) {
-        var mousePos = getMousePos(canvas, event);
-        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        var targetColor = getPixelColor(imageData, mousePos.x, mousePos.y);
-        // Use the bucket color instead of the color picker value
-        var fillColor = bucketColor;
-        floodFill(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
-        ctx.putImageData(imageData, 0, 0);
     }
 
     function getPixelColor(imageData, x, y) {
@@ -371,4 +316,19 @@
             imageData.data[pixelPos + 3] = fillColor[3];
         }
     }
+
+    function store(x, y, s, c) {
+        var line = {
+            "x": x,
+            "y": y,
+            "size": s,
+            "color": c
+        }
+        linesArray.push(line);
+    }
+
+    // DRAWING EVENT HANDLERS
+    canvas.addEventListener('mousedown', function () { mousedown(canvas, event); });
+    canvas.addEventListener('mousemove', function () { mousemove(canvas, event); });
+    canvas.addEventListener('mouseup', mouseup);
 </script>
