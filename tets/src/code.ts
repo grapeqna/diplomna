@@ -118,7 +118,7 @@ if (figma.editorType === 'figma') {
                   else if (fill.type === 'GRADIENT_LINEAR' || fill.type === 'GRADIENT_ANGULAR'
                     || fill.type === 'GRADIENT_DIAMOND' || fill.type === 'GRADIENT_RADIAL') {
 
-                    fill.gradientStops.map((gradFill) => {
+                    fill.gradientStops = fill.gradientStops.map((gradFill) => {
                       let stop = (clone_colorStop(gradFill) as Mutable<ColorStop>)
                       let color = (clone_colors(stop.color) as Mutable<RGB>)
                       color = invertColor(color)

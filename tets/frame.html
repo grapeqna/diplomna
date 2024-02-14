@@ -105,8 +105,9 @@
         </div>
     </div>
 
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" style="margin-right: 5%;"></canvas>
 </body>
+
 <script>
     // SETTING ALL VARIABLES
     var isMouseDown = false;
@@ -116,7 +117,7 @@
     currentSize = 5;
     var currentColor = "rgb(200,20,100)";
     var currentBg = "white";
-    var bucketColor = "#ffffff"; // Default bucket color
+    var bucketColor = "#ffffff";
 
     // INITIAL LAUNCH
     createCanvas();
@@ -137,15 +138,14 @@
     });
 
     document.getElementById('bucket').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default action on click
-        // Show bucket color picker when bucket button is clicked
+        event.preventDefault(); 
+        
         var bucketColorPicker = document.getElementById('bucketColorPicker');
         if (bucketColorPicker.style.display === 'none') {
             bucketColorPicker.style.display = 'block';
         } else {
             bucketColorPicker.style.display = 'none';
         }
-        // Add event listener to canvas for one-time flood fill operation after clicking bucket
         canvas.addEventListener('click', startBucketFillOnce);
     });
 
