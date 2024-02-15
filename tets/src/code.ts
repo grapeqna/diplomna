@@ -7,9 +7,6 @@ if (figma.editorType === 'figma') {
   //nz traa opravq da ne se scrollva
 
   const comps: ComponentNode[] = [];
-  for (const i in comps) {
-    figma.flatten(comps[i].children)
-  }
 
   function clone_layer(val: readonly SceneNode[]) {
     let clone: SceneNode[]
@@ -29,10 +26,13 @@ if (figma.editorType === 'figma') {
 
 
     if (msg.type === 'create') {
-      const layer = figma.createFrame();
-      layer.resize(1280, 720);
-      layer.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-      figma.currentPage.appendChild(layer);
+      const frame = figma.createFrame();
+      const width=parseInt(msg.width,10)
+      const height=parseInt(msg.height,10)
+
+      frame.resize(width, height);
+      frame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+      figma.currentPage.appendChild(frame);
 
     }
 

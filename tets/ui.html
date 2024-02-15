@@ -99,6 +99,10 @@
     margin-left: 2%;
     margin-top: 2%;
   }
+
+  .frame-size{
+    display: none;
+  }
 </style>
 
 <body style="background-color: #2E2929; color: #CCCCCC; font-family: 'Alata', sans-serif; margin: 0%; padding: 0%;">
@@ -106,12 +110,16 @@
   <h2 style="margin-top: 5%; margin-left: 3%; font-size: 25px;">ArtiFig</h2>
   <h4 class="text">Make you design easier and more unique with some of your own art! </h4>
 
-  <button id="create" class="button">New</button>
+  <button id="create" class="button">New Frame</button>
+
+  <div class="frame-size" id="frame-size">
+    <input id="sizeX" type="number" value="500">
+    <input id="sizeY" type="number" value="500">
+    <button id="done">Done</button>
+  </div>
+
   <button id="layers-look" class="button">View layer options</button>
   <button id="canvas" class="button">Open canvas</button>
-  <!-- <button id="brush" class="button">Brush</button>
-  <button id="eraser" class="button">Eraser</button>
-  <button id="bucket" class="button">Bucket</button> -->
 
   <div class="popup" id="popup-save">
     <p class="popup-text">Make sure to select the frame you want to save and try again</p>
@@ -148,12 +156,15 @@
   }
 
   document.getElementById('create').onclick = () => {
-    //suzdavam frame
-    /*const textbox = document.getElementById('count');
-    const count = parseInt(textbox.value, 10);*/
-    //parent.postMessage({ pluginMessage: { type: 'create', count } }, '*')
+    document.getElementById('frame-size').style.display = 'block'
+    
+  }
 
-    parent.postMessage({ pluginMessage: { type: 'create' } }, '*')
+  document.getElementById('done').onclick = () =>{
+    const width= document.getElementById('sizeX').value;
+    const height = document.getElementById('sizeY').value;
+
+    parent.postMessage({ pluginMessage: { type: 'create', width, height } }, '*')
   }
 
   document.getElementById('close').onclick = () => {
