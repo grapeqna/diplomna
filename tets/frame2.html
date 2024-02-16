@@ -336,6 +336,7 @@
         }
 
         function colorPixel(pixelPos) {
+            pixelPos++
             imageData.data[pixelPos] = fillColor[0];
             imageData.data[pixelPos + 1] = fillColor[1];
             imageData.data[pixelPos + 2] = fillColor[2];
