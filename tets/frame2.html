@@ -131,8 +131,8 @@
     }
     document.getElementById('saveToFigma').onclick = () => {
         let img = canvas.toDataURL('img/png')
-        let base64String = img.split(',')[1]; 
-        let binaryString = atob(base64String); 
+        let base64String = img.split(',')[1]; // Extract base64 string excluding the data URL prefix
+        let binaryString = atob(base64String); // Decode base64 string into binary data
         let length = binaryString.length;
         let uintArray = new Uint8Array(length);
 

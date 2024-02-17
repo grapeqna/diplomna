@@ -200,21 +200,21 @@ if (figma.editorType === 'figma') {
       // let 
       for (const node of figma.currentPage.children) {
         if (node.type === "FRAME") {
-      const rectangle = figma.createRectangle();
-      rectangle.fills = [
+          const rectangle = figma.createRectangle();
+          rectangle.fills = [
             {
-                type: 'IMAGE',
-                imageHash: img.hash,
-                scaleMode: 'FILL',
+              type: 'IMAGE',
+              imageHash: img.hash,
+              scaleMode: 'FILL',
             },
-        ];
-      node.appendChild(rectangle)
-      figma.closePlugin()
+          ];
+          node.appendChild(rectangle)
+          // figma.closePlugin()
         }
       }
       // const { width, height } = await img.getSizeAsync();
       // node.resize(width, height);
-  
+
       // // Render the image by filling the rectangle
       // node.fills = [
       //     {
@@ -226,7 +226,7 @@ if (figma.editorType === 'figma') {
       // const rectangle = figma.createRectangle();
       // const { width, height } = await img.getSizeAsync();
       // rectangle.resize(width, height);
-      
+
     }
 
     if (msg.type === 'close') {
