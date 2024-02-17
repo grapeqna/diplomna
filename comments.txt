@@ -273,9 +273,6 @@
  for (let i = 0; i < fill.gradientStops.length; i++) {
  }
 
-
-
-
     //     function hexToRgbA(hex) {
     //         var bigint = parseInt(hex.substring(1), 16);
     //         var r = (bigint >> 16) & 255;
@@ -283,3 +280,16 @@
     //         var b = bigint & 255;
     //         return [r, g, b, 255]; // Alpha is set to 255 (fully opaque)
     //     }
+
+  // var shotit = function () {
+        //     html2canvas(document.body, {
+        //         onrendered: function (canvas) {
+        //             document.body.appendChild(canvas);
+        //             leCanvas = document.getElementsByTagName("canvas")[0];
+        //             var img = leCanvas.toDataURL("image/png");
+        //             document.write('<span style="font:14px normal Helvetica, Arial; font-weight: bold; color:#13a6f5; margin-left:16px">the resulted png:</span> <br /><img src="' + img + '"/>');
+        //         },
+        //         width: 390,
+        //         height: 220
+        //     });
+        // }

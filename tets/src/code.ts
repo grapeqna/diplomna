@@ -27,8 +27,8 @@ if (figma.editorType === 'figma') {
 
     if (msg.type === 'create') {
       const frame = figma.createFrame();
-      const width=parseInt(msg.width,10)
-      const height=parseInt(msg.height,10)
+      const width = parseInt(msg.width, 10)
+      const height = parseInt(msg.height, 10)
 
       frame.resize(width, height);
       frame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
@@ -191,6 +191,42 @@ if (figma.editorType === 'figma') {
 
         figma.ui.postMessage({ type: 'can-save', imageBytes, name }, { origin: "*" })
       }
+    }
+
+    if (msg.type === 'saveImg') {
+      let img = figma.createImage(msg.uintArray)
+      // img= msg.img
+      // figma.currentPage.appendChild(img)
+      // let 
+      for (const node of figma.currentPage.children) {
+        if (node.type === "FRAME") {
+      const rectangle = figma.createRectangle();
+      rectangle.fills = [
+            {
+                type: 'IMAGE',
+                imageHash: img.hash,
+                scaleMode: 'FILL',
+            },
+        ];
+      node.appendChild(rectangle)
+      figma.closePlugin()
+        }
+      }
+      // const { width, height } = await img.getSizeAsync();
+      // node.resize(width, height);
+  
+      // // Render the image by filling the rectangle
+      // node.fills = [
+      //     {
+      //         type: 'IMAGE',
+      //         imageHash: img.hash,
+      //         scaleMode: 'FILL',
+      //     },
+      // ];
+      // const rectangle = figma.createRectangle();
+      // const { width, height } = await img.getSizeAsync();
+      // rectangle.resize(width, height);
+      
     }
 
     if (msg.type === 'close') {

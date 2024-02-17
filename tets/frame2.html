@@ -103,6 +103,7 @@
             <h3>Extra</h3>
             <button id="saveToImage">Download</button>
             <button id="back">back</button>
+            <button id="saveToFigma">save to figma</button>
         </div>
     </div>
 
@@ -128,6 +129,21 @@
     document.getElementById('back').onclick = () => {
         parent.postMessage({ pluginMessage: { type: 'back' } }, '*')
     }
+    document.getElementById('saveToFigma').onclick = () => {
+        let img = canvas.toDataURL('img/png')
+        let base64String = img.split(',')[1]; 
+        let binaryString = atob(base64String); 
+        let length = binaryString.length;
+        let uintArray = new Uint8Array(length);
+
+        for (let i = 0; i < length; i++) {
+            uintArray[i] = binaryString.charCodeAt(i); // Populate Uint8Array with binary data
+        }
+
+        parent.postMessage({ pluginMessage: { type: 'saveImg', uintArray } }, '*')
+        // parent.postMessage({ pluginMessage: { type: 'saveImg' } }, '*')
+
+    }
     document.getElementById('canvasUpdate').addEventListener('click', function () {
         createCanvas();
         redraw();
@@ -146,7 +162,7 @@
         event.preventDefault();
 
         var bucketColorPicker = document.getElementById('bucketColorPicker');
-            bucketColorPicker.style.display = 'block';
+        bucketColorPicker.style.display = 'block';
         canvas.addEventListener('click', startBucketFillOnce);
     });
 
