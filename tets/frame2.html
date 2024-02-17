@@ -101,7 +101,7 @@
 
         <div class="extra">
             <h3>Extra</h3>
-            <a id="saveToImage" class="btn btn-warning">Download</a>
+            <button id="saveToImage">Download</button>
             <button id="back">back</button>
         </div>
     </div>
@@ -146,11 +146,7 @@
         event.preventDefault();
 
         var bucketColorPicker = document.getElementById('bucketColorPicker');
-        if (bucketColorPicker.style.display === 'none') {
             bucketColorPicker.style.display = 'block';
-        } else {
-            bucketColorPicker.style.display = 'none';
-        }
         canvas.addEventListener('click', startBucketFillOnce);
     });
 
@@ -166,6 +162,7 @@
         var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var targetColor = getPixelColor(imageData, mousePos.x, mousePos.y);
         var fillColor = bucketColor;
+        bucketColorPicker.style.display = 'none';
         floodFill(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
         ctx.putImageData(imageData, 0, 0);
         // Remove the event listener after executing the flood fill operation once
@@ -179,24 +176,12 @@
         var r = (bigint >> 16) & 255;
         var g = (bigint >> 8) & 255;
         var b = bigint & 255;
-        return [r, g, b, 255]; 
+        return [r, g, b, 255];
     }
-
-
-    //     function hexToRgbA(hex) {
-    //         var bigint = parseInt(hex.substring(1), 16);
-    //         var r = (bigint >> 16) & 255;
-    //         var g = (bigint >> 8) & 255;
-    //         var b = bigint & 255;
-    //         return [r, g, b, 255]; // Alpha is set to 255 (fully opaque)
-    //     }
-
-
 
     document.getElementById('bucketColorPicker').addEventListener('change', function () {
         bucketColor = hexToRgbA(this.value);
     });
-
     document.getElementById('controlSize').addEventListener('change', function () {
         currentSize = this.value;
         document.getElementById("showSize").innerHTML = this.value;
@@ -282,50 +267,26 @@
         ];
     }
 
-    function floodFill(imageData, x, y, targetColor, fillColor) {
-        var stack = [];
-        var width = imageData.width;
-        var height = imageData.height;
-        var pixelStack = [[x, y]];
+    function floodFill(imageData, _x, _y, targetColor, fillColor) {
+        const width = imageData.width;
+        const height = imageData.height;
+        const pixelStack = [[Math.floor(_x), Math.floor(_y)]];
+
+        const getPixelPos = (x, y, width) => (y * width + x) * 4
 
         while (pixelStack.length) {
-            var newPos, x, y, pixelPos, reachLeft, reachRight;
-            newPos = pixelStack.pop();
-            x = newPos[0];
-            y = newPos[1];
+            const [x, y] = pixelStack.pop()
+            const pixelPos = getPixelPos(x, y, width)
 
-            pixelPos = (y * width + x) * 4;
-            while (y-- >= 0 && matchStartColor(pixelPos)) {
-                pixelPos -= width * 4;
-            }
-            pixelPos += width * 4;
-            ++y;
-            reachLeft = false;
-            reachRight = false;
-            while (y++ < height - 1 && matchStartColor(pixelPos)) {
-                colorPixel(pixelPos);
-                if (x > 0) {
-                    if (matchStartColor(pixelPos - 4)) {
-                        if (!reachLeft) {
-                            pixelStack.push([x - 1, y]);
-                            reachLeft = true;
-                        }
-                    } else if (reachLeft) {
-                        reachLeft = false;
-                    }
-                }
-                if (x < width - 1) {
-                    if (matchStartColor(pixelPos + 4)) {
-                        if (!reachRight) {
-                            pixelStack.push([x + 1, y]);
-                            reachRight = true;
-                        }
-                    } else if (reachRight) {
-                        reachRight = false;
-                    }
-                }
-                pixelPos += width * 4;
-            }
+            if (!matchStartColor(pixelPos)) continue
+
+            colorPixel(pixelPos)
+
+            if (x > 0) pixelStack.push([x - 1, y])
+            if (y > 0) pixelStack.push([x, y - 1])
+
+            if (x < width - 1) pixelStack.push([x + 1, y])
+            if (y < height - 1) pixelStack.push([x, y + 1])
         }
 
         function matchStartColor(pixelPos) {
@@ -336,7 +297,6 @@
         }
 
         function colorPixel(pixelPos) {
-            pixelPos++
             imageData.data[pixelPos] = fillColor[0];
             imageData.data[pixelPos + 1] = fillColor[1];
             imageData.data[pixelPos + 2] = fillColor[2];
@@ -358,4 +318,5 @@
     canvas.addEventListener('mousedown', function () { mousedown(canvas, event); });
     canvas.addEventListener('mousemove', function () { mousemove(canvas, event); });
     canvas.addEventListener('mouseup', mouseup);
+
 </script>
