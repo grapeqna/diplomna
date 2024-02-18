@@ -3,7 +3,7 @@ type Mutable<T> = {
 };
 
 if (figma.editorType === 'figma') {
-  figma.showUI(__uiFiles__.main, { themeColors: true, height: 300 })
+  figma.showUI(__uiFiles__.main, { themeColors: true, height:298 })
   //nz traa opravq da ne se scrollva
 
   const comps: ComponentNode[] = [];
@@ -50,7 +50,8 @@ if (figma.editorType === 'figma') {
 
     }
     if (msg.type === 'layers-look') {
-      figma.showUI(__uiFiles__.secondary)
+      figma.showUI(__uiFiles__.secondary,{ themeColors: true, height:260 })
+      
     }
 
 
@@ -145,7 +146,8 @@ if (figma.editorType === 'figma') {
         figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
       else {
-        for (let i = 0; i < layers.length - 1; i++) {
+        for(const layer of layers){
+        // for (let i = 0; i < layers.length - 1; i++) {
           if (parseInt(layers[i].name) > parseInt(layers[i++].name) && layers[i].type === 'COMPONENT' && layers[i++].type === 'COMPONENT')
           //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
           {
@@ -212,20 +214,6 @@ if (figma.editorType === 'figma') {
           // figma.closePlugin()
         }
       }
-      // const { width, height } = await img.getSizeAsync();
-      // node.resize(width, height);
-
-      // // Render the image by filling the rectangle
-      // node.fills = [
-      //     {
-      //         type: 'IMAGE',
-      //         imageHash: img.hash,
-      //         scaleMode: 'FILL',
-      //     },
-      // ];
-      // const rectangle = figma.createRectangle();
-      // const { width, height } = await img.getSizeAsync();
-      // rectangle.resize(width, height);
 
     }
 
@@ -234,7 +222,7 @@ if (figma.editorType === 'figma') {
     }
 
     if (msg.type === 'back') {
-      figma.showUI(__uiFiles__.main)
+      figma.showUI(__uiFiles__.main, { themeColors: true, height:298 })
     }
 
   };
