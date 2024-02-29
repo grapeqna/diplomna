@@ -6,18 +6,17 @@
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": [
-    "figma",
-    "figjam"
+    "figma"
+    
   ],
   "ui": {
-    "main": "ui.html",
-    "secondary": "ui2.html",
-    "third":"frame2.html"
+    "main": "home.html",
+    "secondary": "layers.html",
+    "third":"canvas.html"
   },
   "networkAccess": {
     "allowedDomains": [
-      "https://fonts.google.com",
-      "https://www.npmjs.com/package/file-saver"
+      "https://fonts.google.com"
     ]
   }
 }

@@ -103,7 +103,7 @@
             <h3>Extra</h3>
             <button id="saveToImage">Download</button>
             <button id="back">back</button>
-            <button id="saveToFigma">save to figma</button>
+            <button id="saveToFigma">Save to figma</button>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
 </body>
 
 <script>
-    // SETTING ALL VARIABLES
+    
     var isMouseDown = false;
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -121,36 +121,34 @@
     var currentBg = "white";
     var bucketColor = "#ffffff";
 
-    // INITIAL LAUNCH
     createCanvas();
-
-    // BUTTON EVENT HANDLERS
 
     document.getElementById('back').onclick = () => {
         parent.postMessage({ pluginMessage: { type: 'back' } }, '*')
     }
     document.getElementById('saveToFigma').onclick = () => {
         let img = canvas.toDataURL('img/png')
-        let base64String = img.split(',')[1]; // Extract base64 string excluding the data URL prefix
-        let binaryString = atob(base64String); // Decode base64 string into binary data
+        let base64String = img.split(',')[1];
+        let binaryString = atob(base64String); 
         let length = binaryString.length;
         let uintArray = new Uint8Array(length);
 
         for (let i = 0; i < length; i++) {
-            uintArray[i] = binaryString.charCodeAt(i); // Populate Uint8Array with binary data
+            uintArray[i] = binaryString.charCodeAt(i); 
         }
 
         parent.postMessage({ pluginMessage: { type: 'saveImg', uintArray } }, '*')
-        // parent.postMessage({ pluginMessage: { type: 'saveImg' } }, '*')
-
     }
+
     document.getElementById('canvasUpdate').addEventListener('click', function () {
         createCanvas();
         redraw();
     });
+
     document.getElementById('colorpicker').addEventListener('change', function () {
         currentColor = this.value;
     });
+
     document.getElementById('bgcolorpicker').addEventListener('change', function () {
         ctx.fillStyle = this.value;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -167,9 +165,7 @@
     });
 
     function startBucketFillOnce() {
-        // Remove the one-time event listener after it's executed once
         canvas.removeEventListener('click', startBucketFillOnce);
-        // Add event listener to perform flood fill operation on canvas click
         canvas.addEventListener('click', startBucketFill);
     }
 
@@ -181,7 +177,6 @@
         bucketColorPicker.style.display = 'none';
         floodFill(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
         ctx.putImageData(imageData, 0, 0);
-        // Remove the event listener after executing the flood fill operation once
         canvas.removeEventListener('click', startBucketFill);
     }
 
@@ -198,17 +193,18 @@
     document.getElementById('bucketColorPicker').addEventListener('change', function () {
         bucketColor = hexToRgbA(this.value);
     });
+
     document.getElementById('controlSize').addEventListener('change', function () {
         currentSize = this.value;
         document.getElementById("showSize").innerHTML = this.value;
     });
+
     document.getElementById('saveToImage').addEventListener('click', function () {
         downloadCanvas(this, 'canvas', 'masterpiece.png');
     }, false);
     document.getElementById('eraser').addEventListener('click', eraser);
     document.getElementById('clear').addEventListener('click', createCanvas);
 
-    // REDRAW
     function redraw() {
         for (var i = 1; i < linesArray.length; i++) {
             ctx.beginPath();
@@ -221,7 +217,6 @@
         }
     }
 
-    // CREATE CANVAS
     function createCanvas() {
         canvas.width = parseInt(document.getElementById("sizeX").value);
         canvas.height = parseInt(document.getElementById("sizeY").value);
@@ -229,7 +224,6 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // DOWNLOAD CANVAS
     function downloadCanvas(link, canvas, filename) {
         link.href = document.getElementById(canvas).toDataURL();
         link.download = filename;
@@ -243,8 +237,8 @@
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
-            x: evt.clientX - rect.left,
-            y: evt.clientY - rect.top
+            x: Math.floor(evt.clientX - rect.left),
+            y: Math.floor(evt.clientY - rect.top)
         };
     }
 
@@ -330,7 +324,6 @@
         linesArray.push(line);
     }
 
-    // DRAWING EVENT HANDLERS
     canvas.addEventListener('mousedown', function () { mousedown(canvas, event); });
     canvas.addEventListener('mousemove', function () { mousemove(canvas, event); });
     canvas.addEventListener('mouseup', mouseup);

@@ -1,187 +1,32 @@
-
-	// FLOOD FILL FUNCTION
-	function startBucketFill(event) {
-		var mousePos = getMousePos(canvas, event);
-		var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		var targetColor = getPixelColor(imageData, mousePos.x, mousePos.y);
-		var fillColor = hexToRgb(currentColor);
-		floodFill(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
-		ctx.putImageData(imageData, 0, 0);
-	}
-
-
-	function getPixelColor(imageData, x, y) {
-		var index = (y * imageData.width + x) * 4;
-		return [
-			imageData.data[index],
-			imageData.data[index + 1],
-			imageData.data[index + 2],
-			imageData.data[index + 3]
-		];
-	}
-
-	function floodFill(imageData, x, y, targetColor, fillColor) {
-		var stack = [];
-		var width = imageData.width;
-		var height = imageData.height;
-		var pixelStack = [[x, y]];
-
-		while (pixelStack.length) {
-			var newPos, x, y, pixelPos, reachLeft, reachRight;
-			newPos = pixelStack.pop();
-			x = newPos[0];
-			y = newPos[1];
-
-			pixelPos = (y * width + x) * 4;
-			while (y-- >= 0 && matchStartColor(pixelPos)) {
-				pixelPos -= width * 4;
-			}
-			pixelPos += width * 4;
-			++y;
-			reachLeft = false;
-			reachRight = false;
-			while (y++ < height - 1 && matchStartColor(pixelPos)) {
-				colorPixel(pixelPos);
-				if (x > 0) {
-					if (matchStartColor(pixelPos - 4)) {
-						if (!reachLeft) {
-							pixelStack.push([x - 1, y]);
-							reachLeft = true;
-						}
-					} else if (reachLeft) {
-						reachLeft = false;
-					}
-				}
-				if (x < width - 1) {
-					if (matchStartColor(pixelPos + 4)) {
-						if (!reachRight) {
-							pixelStack.push([x + 1, y]);
-							reachRight = true;
-						}
-					} else if (reachRight) {
-						reachRight = false;
-					}
-				}
-				pixelPos += width * 4;
-			}
-		}
-
-		function matchStartColor(pixelPos) {
-			var r = imageData.data[pixelPos];
-			var g = imageData.data[pixelPos + 1];
-			var b = imageData.data[pixelPos + 2];
-			return (r === targetColor[0] && g === targetColor[1] && b === targetColor[2]);
-		}
-
-		function colorPixel(pixelPos) {
-			imageData.data[pixelPos] = fillColor[0];
-			imageData.data[pixelPos + 1] = fillColor[1];
-			imageData.data[pixelPos + 2] = fillColor[2];
-			imageData.data[pixelPos + 3] = fillColor[3];
-		}
-	}
-
-
-	function hexToRgb(hex) {
-		// Remove the '#' character if it exists
-		hex = hex.replace(/^#/, '');
-
-		// If the hex value is shorthand, expand it to the full form
-		if (hex.length === 3) {
-			hex = hex.replace(/(.)/g, '$1$1');
-		}
-
-		// Parse the hex value into individual RGB components
-		var bigint = parseInt(hex, 16);
-		var r = (bigint >> 16) & 255;
-		var g = (bigint >> 8) & 255;
-		var b = bigint & 255;
-
-		// Return the RGB values as an array
-		return [r, g, b];
-	}
-
-
-
-
-    document.getElementById('remove').addEventListener('click', function (event) {
-        event.preventDefault();
-        canvas.addEventListener('click', startRemoveAreaOnce);
-    });
-
-	function startRemoveAreaOnce() {
-        canvas.removeEventListener('click', startRemoveAreaOnce);
-        canvas.addEventListener('click', startAreaRemove);
-    }
-
-	function startAreaRemove(event) {
-        var mousePos = getMousePos(canvas, event);
-        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        var targetColor = getPixelColor(imageData, mousePos.x, mousePos.y);
-        var fillColor = bucketColor;
-        removeArea(imageData, mousePos.x, mousePos.y, targetColor, fillColor);
-        ctx.putImageData(imageData, 0, 0);
-        // Remove the event listener after executing the flood fill operation once
-        canvas.removeEventListener('click', startAreaRemove);
-    }
-
-	function removeArea(imageData, x, y, targetColor, fillColor) {
-        var stack = [];
-        var width = imageData.width;
-        var height = imageData.height;
-        var pixelStack = [[x, y]];
-
-        while (pixelStack.length) {
-            var newPos, x, y, pixelPos, reachLeft, reachRight;
-            newPos = pixelStack.pop();
-            x = newPos[0];
-            y = newPos[1];
-
-            pixelPos = (y * width + x) * 4;
-            while (y-- >= 0 && matchStartColor(pixelPos)) {
-                pixelPos -= width * 4;
+if (msg.type === 'merge') {
+      let layers: SceneNode[] = clone_layer(figma.currentPage.selection)
+      if (layers.length < 2) {
+        figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
+      }
+      else {
+        for (let i = 0; i < layers.length - 1; i++) {
+          if (parseInt(layers[i].name) > parseInt(layers[i++].name) && layers[i].type === 'COMPONENT' && layers[i++].type === 'COMPONENT')
+          //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
+          {
+            let kids: SceneNode[] = clone_layer((layers[i] as ComponentNode).children) as Mutable<SceneNode>[];
+            for (let j = 0; j < kids.length; j++) {
+              (layers[i++] as ComponentNode).appendChild(kids[j])
             }
-            pixelPos += width * 4;
-            ++y;
-            reachLeft = false;
-            reachRight = false;
-            while (y++ < height - 1 && matchStartColor(pixelPos)) {
-                colorPixel(pixelPos);
-                if (x > 0) {
-                    if (matchStartColor(pixelPos - 4)) {
-                        if (!reachLeft) {
-                            pixelStack.push([x - 1, y]);
-                            reachLeft = true;
-                        }
-                    } else if (reachLeft) {
-                        reachLeft = false;
-                    }
-                }
-                if (x < width - 1) {
-                    if (matchStartColor(pixelPos + 4)) {
-                        if (!reachRight) {
-                            pixelStack.push([x + 1, y]);
-                            reachRight = true;
-                        }
-                    } else if (reachRight) {
-                        reachRight = false;
-                    }
-                }
-                pixelPos += width * 4;
+            //prisuedinqvame decatana po-golemiq sloi v malkiq sloi
+            figma.flatten((layers[i++] as ComponentNode).children)
+            layers[i].remove //mahame po golemiq sloi, 4iito deca ve4e trqbwa da sa w drugiq sloi
+            figma.currentPage.selection = layers
+          }
+          else {
+            //su6toto no ako i++ e po golqmo
+            let kids: SceneNode[] = clone_layer((layers[i++] as ComponentNode).children) as Mutable<SceneNode>[];
+            for (let j = 0; j < kids.length; j++) {
+              (layers[i] as ComponentNode).appendChild(kids[j])
             }
+            figma.flatten((layers[i] as ComponentNode).children)
+            layers[i++].remove
+            figma.currentPage.selection = layers
+          }
         }
-
-        function matchStartColor(pixelPos) {
-            var r = imageData.data[pixelPos];
-            var g = imageData.data[pixelPos + 1];
-            var b = imageData.data[pixelPos + 2];
-            return (r === targetColor[0] && g === targetColor[1] && b === targetColor[2]);
-        }
-
-        function colorPixel(pixelPos) {
-            imageData.data[pixelPos] = fillColor[0];
-            imageData.data[pixelPos + 1] = fillColor[1];
-            imageData.data[pixelPos + 2] = fillColor[2];
-            imageData.data[pixelPos + 3] = fillColor[3];
-        }
+      }
     }

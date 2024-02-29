@@ -3,7 +3,7 @@ type Mutable<T> = {
 };
 
 if (figma.editorType === 'figma') {
-  figma.showUI(__uiFiles__.main, { themeColors: true, height:298 })
+  figma.showUI(__uiFiles__.main, { themeColors: true, height: 298 })
   //nz traa opravq da ne se scrollva
 
   const comps: ComponentNode[] = [];
@@ -12,6 +12,10 @@ if (figma.editorType === 'figma') {
     let clone: SceneNode[]
     clone = val.slice()
     return clone
+  }
+
+  function cloneScene(val: SceneNode) {
+    return { ...val };
   }
 
   function clone_colors(val: RGB) {
@@ -50,8 +54,8 @@ if (figma.editorType === 'figma') {
 
     }
     if (msg.type === 'layers-look') {
-      figma.showUI(__uiFiles__.secondary,{ themeColors: true, height:260 })
-      
+      figma.showUI(__uiFiles__.secondary, { themeColors: true, height: 260 })
+
     }
 
 
@@ -146,37 +150,29 @@ if (figma.editorType === 'figma') {
         figma.ui.postMessage({ type: 'not-selected' }, { origin: "*" })
       }
       else {
-        for(const layer of layers){
-        // for (let i = 0; i < layers.length - 1; i++) {
-          if (parseInt(layers[i].name) > parseInt(layers[i++].name) && layers[i].type === 'COMPONENT' && layers[i++].type === 'COMPONENT')
-          //proverqvame koe e po golemiq sloi (po golemiq se maha) i dali i 2te izbrani sa component (demek tova koeto polzvam za sloi)
-          {
+        for (let i = 0; i < layers.length - 1; i++) {
+          if (parseInt(layers[i].name) > parseInt(layers[i + 1].name) &&
+            layers[i].type === 'COMPONENT' && layers[i + 1].type === 'COMPONENT') {
             let kids: SceneNode[] = clone_layer((layers[i] as ComponentNode).children) as Mutable<SceneNode>[];
             for (let j = 0; j < kids.length; j++) {
-              (layers[i++] as ComponentNode).appendChild(kids[j])
+              (layers[i + 1] as ComponentNode).appendChild(kids[j])
             }
-            //prisuedinqvame decatana po-golemiq sloi v malkiq sloi
-            figma.flatten((layers[i++] as ComponentNode).children)
-            layers[i].remove //mahame po golemiq sloi, 4iito deca ve4e trqbwa da sa w drugiq sloi
+            figma.flatten((layers[i + 1] as ComponentNode).children)
+            layers[i].remove
             figma.currentPage.selection = layers
           }
           else {
-            //su6toto no ako i++ e po golqmo
-            let kids: SceneNode[] = clone_layer((layers[i++] as ComponentNode).children) as Mutable<SceneNode>[];
+            let kids: SceneNode[] = clone_layer((layers[i + 1] as ComponentNode).children) as Mutable<SceneNode>[];
             for (let j = 0; j < kids.length; j++) {
               (layers[i] as ComponentNode).appendChild(kids[j])
             }
             figma.flatten((layers[i] as ComponentNode).children)
-            layers[i++].remove
+            layers[i + 1].remove
             figma.currentPage.selection = layers
           }
         }
       }
     }
-
-    //ok flatten ne raboti za6toto sa components taka 4e trqbva da dobavq ne6tata ot ediniq sloi v drugiq i togava da iztriq ediiq i da flatten drugiq
-    //ne6tata v komponentite mozhe da se flttenvat bez problem
-    //mozhe bi vsi4ki addnato v komponent da se flatenva zaedno i pri merge da maham ediniq
 
     if (msg.type === 'canvas') {
       figma.showUI(__uiFiles__.third, { width: 750, height: 600 })
@@ -197,9 +193,6 @@ if (figma.editorType === 'figma') {
 
     if (msg.type === 'saveImg') {
       let img = figma.createImage(msg.uintArray)
-      // img= msg.img
-      // figma.currentPage.appendChild(img)
-      // let 
       for (const node of figma.currentPage.children) {
         if (node.type === "FRAME") {
           const rectangle = figma.createRectangle();
@@ -211,7 +204,6 @@ if (figma.editorType === 'figma') {
             },
           ];
           node.appendChild(rectangle)
-          // figma.closePlugin()
         }
       }
 
@@ -222,63 +214,8 @@ if (figma.editorType === 'figma') {
     }
 
     if (msg.type === 'back') {
-      figma.showUI(__uiFiles__.main, { themeColors: true, height:298 })
+      figma.showUI(__uiFiles__.main, { themeColors: true, height: 298 })
     }
 
   };
 }
-
-/*You can ask the user to draw with a pencil tool and then convert all newly added vector objects (drawings) into brush strokes. There is no way to make the effect real-time. Only when the user finishes the stroke you can convert it. */
-
-
-if (figma.editorType === 'figjam') {
-  // This plugin will open a window to prompt the user to enter a number, and
-  // it will then create that many shapes and connectors on the screen.
-
-  // This shows the HTML page in "ui.html".
-  figma.showUI(__html__);
-
-  // Calls to "parent.postMessage" from within the HTML page will trigger this
-  // callback. The callback will be passed the "pluginMessage" property of the
-  // posted message.
-  figma.ui.onmessage = msg => {
-    // One way of distinguishing between different types of messages sent from
-    // your HTML page is to use an object with a "type" property like this.
-    if (msg.type === 'create-shapes') {
-      const numberOfShapes = msg.count;
-      const nodes: SceneNode[] = [];
-      for (let i = 0; i < numberOfShapes; i++) {
-        const shape = figma.createShapeWithText();
-        // You can set shapeType to one of: 'SQUARE' | 'ELLIPSE' | 'ROUNDED_RECTANGLE' | 'DIAMOND' | 'TRIANGLE_UP' | 'TRIANGLE_DOWN' | 'PARALLELOGRAM_RIGHT' | 'PARALLELOGRAM_LEFT'
-        shape.shapeType = 'ROUNDED_RECTANGLE'
-        shape.x = i * (shape.width + 200);
-        shape.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
-        figma.currentPage.appendChild(shape);
-        nodes.push(shape);
-      };
-
-      for (let i = 0; i < (numberOfShapes - 1); i++) {
-        const connector = figma.createConnector();
-        connector.strokeWeight = 8
-
-        connector.connectorStart = {
-          endpointNodeId: nodes[i].id,
-          magnet: 'AUTO',
-        };
-
-        connector.connectorEnd = {
-          endpointNodeId: nodes[i + 1].id,
-          magnet: 'AUTO',
-        };
-      };
-
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-    }
-
-    // Make sure to close the plugin when you're done. Otherwise the plugin will
-    // keep running, which shows the cancel button at the bottom of the screen.
-    figma.closePlugin();
-  };
-};
-
