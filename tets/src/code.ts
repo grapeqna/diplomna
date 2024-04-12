@@ -157,18 +157,20 @@ if (figma.editorType === 'figma') {
             for (let j = 0; j < kids.length; j++) {
               (layers[i + 1] as ComponentNode).appendChild(kids[j])
             }
-            figma.flatten((layers[i + 1] as ComponentNode).children)
+
             layers[i].remove
             figma.currentPage.selection = layers
+            figma.currentPage.selection[i].remove
           }
           else {
             let kids: SceneNode[] = clone_layer((layers[i + 1] as ComponentNode).children) as Mutable<SceneNode>[];
             for (let j = 0; j < kids.length; j++) {
               (layers[i] as ComponentNode).appendChild(kids[j])
             }
-            figma.flatten((layers[i] as ComponentNode).children)
             layers[i + 1].remove
             figma.currentPage.selection = layers
+            figma.currentPage.selection[i+1].remove
+
           }
         }
       }
