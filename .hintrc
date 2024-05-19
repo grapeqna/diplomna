@@ -19,7 +19,8 @@
       "default",
       {
         "ignore": [
-          "scrollbar-width"
+          "scrollbar-width",
+          "scrollbar-color"
         ]
       }
     ],

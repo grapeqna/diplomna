@@ -1,7 +1,25 @@
 <style>
+    #body {
+        color: white;
+    }
+
     .colorButtons {
         display: block;
         margin: 20px 0;
+    }
+
+    .btn {
+        background-color: #50407a;
+        color: white;
+        font-family: "Alata", sans-serif;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        height: 30px;
+        border-radius: 10px;
+        box-shadow: none;
+        border: none;
     }
 
     canvas {
@@ -34,7 +52,7 @@
 
     canvas#canvas {
         left: 200px;
-        top: 30px;
+        top: 40px;
     }
 
     .btn {
@@ -49,14 +67,6 @@
 
     .input-group {
         margin-bottom: 10px;
-    }
-
-    .toolsButtons .btn {
-        width: 40%;
-    }
-
-    .sizeButtons .btn {
-        width: 40%;
     }
 
     .colorpicker {
@@ -74,8 +84,8 @@
 <body style="background-color: #2E2929; color: #CCCCCC; font-family: 'Lato', serif; overflow: hidden;">
     <div id="sidebar" style="margin-right: 5%;">
         <div class="colorButtons">
-            <h3>pen color</h3>
-            <button id="pen" class="btn btn-default">pen</button>
+            <h3>Pen tool</h3>
+            <button id="pen" class="btn">pen</button>
             <input type="color" id="colorpicker" value="#c81464" class="colorpicker">
         </div>
 
@@ -85,17 +95,14 @@
         </div>
 
         <div class="toolsButtons">
-            <h3>Tools</h3>
-            <button id="eraser" class="btn btn-default"> eraser <span class="glyphicon glyphicon-erase"
-                    aria-hidden="true"></span></button>
-            <button id="clear" class="btn btn-danger">clear <span class="glyphicon glyphicon-repeat"
-                    aria-hidden="true"></span></button>
-            <button id="bucket" class="btn btn-primary">bucket <span class="glyphicon glyphicon-tint"
-                    aria-hidden="true"></span></button>
+            <h3>Other tools</h3>
+            <button id="eraser" class="btn"> Eraser </button>
+            <button id="clear" class="btn">Clear </button>
+            <button id="bucket" class="btn">Bucket </button>
             <input type="color" id="bucketColorPicker" value="#ffffff" class="colorpicker bucket-color-picker">
         </div>
 
-        <div class="buttonSize">
+        <div class="size">
             <h3>Size (<span id="showSize">5</span>)</h3>
             <input type="range" min="1" max="50" value="5" step="1" id="controlSize">
         </div>
@@ -112,14 +119,14 @@
                 <input type="number" id="sizeY" class="form-control" placeholder="sizeY" value="500" class="size">
             </div>
 
-            <input type="button" class="updateSize btn btn-success" value="Update" id="canvasUpdate">
+            <input type="button" class="btn" value="Update" id="canvasUpdate">
         </div>
 
         <div class="extra">
             <h3>Extra</h3>
-            <button id="saveToImage">Download</button>
-            <button id="back">back</button>
-            <button id="saveToFigma">Save to figma</button>
+            <button id="saveToImage" class="btn">Download</button>
+            <button id="saveToFigma" class="btn">Save to figma</button>
+            <button id="back" class="btn">Back</button>
         </div>
     </div>
 
@@ -223,8 +230,7 @@
     document.getElementById('eraser').addEventListener('click', eraser);
     document.getElementById('clear').addEventListener('click', clear);
 
-    function clear()
-    {
+    function clear() {
         linesArray = []
         createCanvas()
     }
