@@ -26,6 +26,7 @@
     #sidebar::-webkit-scrollbar-track {
         background: #73698d;
     }
+
     #sidebar::-webkit-scrollbar-thumb {
         background-color: #50407a;
         border-radius: 10px;
@@ -74,6 +75,7 @@
     <div id="sidebar" style="margin-right: 5%;">
         <div class="colorButtons">
             <h3>pen color</h3>
+            <button id="pen" class="btn btn-default">pen</button>
             <input type="color" id="colorpicker" value="#c81464" class="colorpicker">
         </div>
 
@@ -216,8 +218,16 @@
     document.getElementById('saveToImage').addEventListener('click', function () {
         downloadCanvas(this, 'canvas', 'masterpiece.png');
     }, false);
+
+    document.getElementById('pen').addEventListener('click', pen);
     document.getElementById('eraser').addEventListener('click', eraser);
-    document.getElementById('clear').addEventListener('click', createCanvas);
+    document.getElementById('clear').addEventListener('click', clear);
+
+    function clear()
+    {
+        linesArray = []
+        createCanvas()
+    }
 
     function redraw() {
         for (var i = 1; i < linesArray.length; i++) {
@@ -244,8 +254,13 @@
     }
 
     function eraser() {
-        currentSize = 50;
+        currentSize = currentSize;
         currentColor = ctx.fillStyle;
+    }
+
+    function pen() {
+        currentSize = currentSize;
+        currentColor = document.getElementById('colorpicker').value;
     }
 
     function getMousePos(canvas, evt) {
