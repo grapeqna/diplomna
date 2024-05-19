@@ -11,9 +11,24 @@
     div#sidebar {
         position: absolute;
         left: 0;
-        width: 150px;
-        padding: 20px 20px;
+        width: 170px;
+        height: 100%;
+        padding: 20px;
         top: 0;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    #sidebar::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    #sidebar::-webkit-scrollbar-track {
+        background: #73698d;
+    }
+    #sidebar::-webkit-scrollbar-thumb {
+        background-color: #50407a;
+        border-radius: 10px;
     }
 
     canvas#canvas {
@@ -48,7 +63,6 @@
         height: 40px;
     }
 
-    /* Additional style for bucket color picker */
     .bucket-color-picker {
         display: none;
         margin-top: 10px;
@@ -56,7 +70,7 @@
 </style>
 
 
-<body style="background-color: #2E2929; color: #CCCCCC; font-family: 'Lato', serif;">
+<body style="background-color: #2E2929; color: #CCCCCC; font-family: 'Lato', serif; overflow: hidden;">
     <div id="sidebar" style="margin-right: 5%;">
         <div class="colorButtons">
             <h3>pen color</h3>
@@ -111,7 +125,7 @@
 </body>
 
 <script>
-    
+
     var isMouseDown = false;
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -129,12 +143,12 @@
     document.getElementById('saveToFigma').onclick = () => {
         let img = canvas.toDataURL('img/png')
         let base64String = img.split(',')[1];
-        let binaryString = atob(base64String); 
+        let binaryString = atob(base64String);
         let length = binaryString.length;
         let uintArray = new Uint8Array(length);
 
         for (let i = 0; i < length; i++) {
-            uintArray[i] = binaryString.charCodeAt(i); 
+            uintArray[i] = binaryString.charCodeAt(i);
         }
 
         parent.postMessage({ pluginMessage: { type: 'saveImg', uintArray } }, '*')

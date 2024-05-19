@@ -4,7 +4,6 @@ type Mutable<T> = {
 
 if (figma.editorType === 'figma') {
   figma.showUI(__uiFiles__.main, { themeColors: true, height: 298 })
-  //nz traa opravq da ne se scrollva
 
   const comps: ComponentNode[] = [];
 
@@ -30,13 +29,21 @@ if (figma.editorType === 'figma') {
 
 
     if (msg.type === 'create') {
-      const frame = figma.createFrame();
+      
       const width = parseInt(msg.width, 10)
       const height = parseInt(msg.height, 10)
 
-      frame.resize(width, height);
-      frame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-      figma.currentPage.appendChild(frame);
+      if (width > 10 && height > 10) {
+        const frame = figma.createFrame();
+        frame.resize(width, height);
+        frame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+        figma.currentPage.appendChild(frame);
+        figma.ui.postMessage({ type: 'frame-added' }, { origin: "*" })
+      }
+      else{
+        figma.ui.postMessage({ type: 'too-small' }, { origin: "*" })
+      }
+      
 
     }
 
@@ -48,6 +55,7 @@ if (figma.editorType === 'figma') {
           comp.resizeWithoutConstraints(node.width, node.height);
           node.appendChild(comp);
           comps.push(comp);
+          figma.ui.postMessage({ type: 'layer-added' }, { origin: "*" })
           comp.name = node.children.length.toString();
         }
       }
@@ -69,6 +77,7 @@ if (figma.editorType === 'figma') {
               child.effects = [{ type: 'LAYER_BLUR', radius: 10, visible: true }];
             }
           }
+          figma.ui.postMessage({ type: 'filter-added' }, { origin: "*" })
         }
     }
 
@@ -78,10 +87,10 @@ if (figma.editorType === 'figma') {
           for (const child of (figma.currentPage.selection[i] as ComponentNode).children) {
             if (child.type === 'VECTOR' || child.type === 'ELLIPSE' || child.type === 'LINE' || child.type === 'RECTANGLE'
               || child.type === 'POLYGON' || child.type === 'STAR' || child.type === 'TEXT') {
-              // podlezhi na korekciq
               child.effects = [{ type: 'BACKGROUND_BLUR', radius: 10, visible: true }];
             }
           }
+          figma.ui.postMessage({ type: 'filter-added' }, { origin: "*" })
         }
     }
 
@@ -117,6 +126,7 @@ if (figma.editorType === 'figma') {
                   if (fill.type === 'SOLID') {
                     let color = invertColor(clone_colors(fill.color))
                     fill.color = { r: color.r, b: color.b, g: color.g }
+                    figma.ui.postMessage({ type: 'filter-added' }, { origin: "*" })
                     return fill
                   }
 
@@ -131,8 +141,10 @@ if (figma.editorType === 'figma') {
                       return stop
                     })
 
+                    figma.ui.postMessage({ type: 'filter-added' }, { origin: "*" })
                     return fill
                   }
+                  figma.ui.postMessage({ type: 'filter-added' }, { origin: "*" })
                   return fill
                 })
               }
@@ -161,6 +173,7 @@ if (figma.editorType === 'figma') {
             layers[i].remove
             figma.currentPage.selection = layers
             figma.currentPage.selection[i].remove
+            figma.ui.postMessage({ type: 'merged' }, { origin: "*" })
           }
           else {
             let kids: SceneNode[] = clone_layer((layers[i + 1] as ComponentNode).children) as Mutable<SceneNode>[];
@@ -169,7 +182,8 @@ if (figma.editorType === 'figma') {
             }
             layers[i + 1].remove
             figma.currentPage.selection = layers
-            figma.currentPage.selection[i+1].remove
+            figma.currentPage.selection[i + 1].remove
+            figma.ui.postMessage({ type: 'merged' }, { origin: "*" })
 
           }
         }

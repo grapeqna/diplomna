@@ -39,7 +39,6 @@
 
   .half-button {
     width: 50%;
-    /* height: 100%; */
     height: 50px;
     background-color: #2E2929;
     color: #FFF;
@@ -98,26 +97,102 @@
   }
 
   .popup-text {
+    font-weight: 700;
     margin-left: 2%;
     margin-top: 2%;
   }
 
-  .frame-size{
+  .popup-frame {
     display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 20%;
+    background-color: #610923c7;
+    z-index: 2;
+  }
+
+  .popup-frame2 {
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 10%;
+    background-color: #094e3dda;
+    z-index: 2;
+  }
+
+  .frame-size {
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .inputs {
+    display: flex;
+  }
+
+  #done {
+    width: 250px;
+    height: 42px;
+    background-color: #5C5470;
+    color: #FFF;
+    font-family: "Alata", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+    margin-left: 1px;
+  }
+
+  #done:hover {
+    background-color: #73698d;
+  }
+
+  #done:active {
+    background-color: #463e3e;
+  }
+
+  #sizeX,
+  #sizeY {
+    color: #FFF;
+    background-color: #8E81AE;
+  }
+
+  #sizeX:focus,
+  #sizeY:focus {
+    outline: none;
+    border: 1px solid #FFF;
   }
 </style>
 
-<body style="background-color: #2E2929; color: #f8f8f8; font-family: 'Alata', sans-serif; margin: 0%; padding: 0%; overflow: hidden">
+<body
+  style="background-color: #2E2929; color: #f8f8f8; font-family: 'Alata', sans-serif; margin: 0%; padding: 0%; overflow: hidden">
 
   <h2 style="margin-top: 5%; margin-left: 3%; font-size: 25px;">ArtiFig</h2>
-  <h4 class="text">Make you design easier and more unique with some of your own art! </h4>
+  <h4 class="text">Make your design easier and more unique with some of your own art! </h4>
 
   <button id="create" class="button">New Frame</button>
 
   <div class="frame-size" id="frame-size">
-    <input id="sizeX" type="number" value="500">
-    <input id="sizeY" type="number" value="500">
-    <button id="done">Done</button>
+    <div class="inputs">
+      <div>
+        <input id="sizeX" type="number" value="500">
+        <input id="sizeY" type="number" value="500">
+      </div>
+      <button id="done">Done</button>
+    </div>
+  </div>
+  <div class="popup-frame" id="popup-frame1">
+    <p class="popup-text">Given width/height was too small. It must be bigger than 10!</p>
+  </div>
+
+  <div class="popup-frame2" id="popup-frame2">
+    <p class="popup-text">Frame was added!</p>
   </div>
 
   <button id="layers-look" class="button">View layer options</button>
@@ -157,11 +232,11 @@
 
   document.getElementById('create').onclick = () => {
     document.getElementById('frame-size').style.display = 'block'
-    
+
   }
 
-  document.getElementById('done').onclick = () =>{
-    const width= document.getElementById('sizeX').value;
+  document.getElementById('done').onclick = () => {
+    const width = document.getElementById('sizeX').value;
     const height = document.getElementById('sizeY').value;
 
     parent.postMessage({ pluginMessage: { type: 'create', width, height } }, '*')
@@ -172,7 +247,7 @@
     parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
   }
 
-  document.getElementById('save').onclick = /*async*/ () => {
+  document.getElementById('save').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
     document.getElementById('popup-save').style.display = 'none'
   }
@@ -181,11 +256,20 @@
     parent.postMessage({ pluginMessage: { type: 'layers-look' } }, '*')
   }
 
-  document.getElementById('canvas').onclick =()=>{
-    parent.postMessage({pluginMessage:{type: 'canvas'}},'*')
+  document.getElementById('canvas').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'canvas' } }, '*')
   }
 
   window.onmessage = (msg) => {
+    if (msg.data.pluginMessage.type === 'too-small') {
+      document.getElementById('popup-frame1').style.display = 'block'
+    }
+    if (msg.data.pluginMessage.type === 'frame-added') {
+      document.getElementById('popup-frame2').style.display = 'block'
+      setTimeout(function () {
+        document.getElementById('popup-frame2').style.display = 'none';
+      }, 2000);
+    }
     if (msg.data.pluginMessage.type === 'cant-save') {
       document.getElementById('popup-save').style.display = 'block'
     }

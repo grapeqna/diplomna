@@ -102,13 +102,23 @@
     z-index: 2;
   }
 
+  .popup-new {
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 15%;
+    background-color: #094e3dda;
+    z-index: 2;
+  }
   .popup-text {
     margin-left: 2%;
     margin-top: 2%;
     font-family: "Alata", sans-serif;
     font-size: 20px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .dropdown {
@@ -176,7 +186,13 @@
 <body style=" background-color: #2E2929; color: #CCCCCC; font-family: 'Alata', sans-serif; margin: 0%; padding: 0%; overflow: hidden;">
 
   <h2 class="title">Layer management</h2>
+
   <button id="create" class="button">New layer</button>
+  <div class="popup-new" id="popup-new">
+    <p class="popup-text">New layer added!</p>
+  </div>
+
+
   <div class="dropdown">
     <button id="filter" onclick="myFunction()" class="button">Add filter</button>
     <div id="myDropdown" class="dropdown-content">
@@ -185,11 +201,19 @@
       <button id="inverted" class="drop-btn">Inverted</button>
     </div>
   </div>
+
+  <div class="popup-new" id="popup-filter">
+    <p class="popup-text">Filter added!</p>
+  </div>
+
   <button id="merge" class="button">Merge layers</button>
 
   <div class="popup" id="popup-merge">
     <p class="popup-text">Make sure to select at least two layers
       and try again</p>
+  </div>
+  <div class="popup-new" id="popup-merge-done">
+    <p class="popup-text">Layers were merged!</p>
   </div>
 
   <div class="popup" id="popup-save">
@@ -250,20 +274,40 @@
     parent.postMessage({ pluginMessage: { type: 'back' } }, '*')
   }
 
-  document.getElementById('save').onclick = /*async*/ () => {
+  document.getElementById('save').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'save' } }, '*')
     document.getElementById('popup-save').style.display = 'none'
   }
 
   window.onmessage = (msg) => {
+
+    if (msg.data.pluginMessage.type === 'layer-added') {
+      document.getElementById('popup-new').style.display = 'block'
+      setTimeout(function () {
+        document.getElementById('popup-new').style.display = 'none';
+      }, 2000);
+    }
+
+    if (msg.data.pluginMessage.type === 'filter-added') {
+      document.getElementById('popup-filter').style.display = 'block'
+      setTimeout(function () {
+        document.getElementById('popup-filter').style.display = 'none';
+      }, 2000);
+    }
+
+    if (msg.data.pluginMessage.type === 'merged') {
+      document.getElementById('popup-merge-done').style.display = 'block'
+      setTimeout(function () {
+        document.getElementById('popup-merge-done').style.display = 'none';
+      }, 2000);
+    }
+
     if (msg.data.pluginMessage.type === 'not-selected') {
       document.getElementById('popup-merge').style.display = 'block'
     }
-
     if (msg.data.pluginMessage.type === 'cant-save') {
       document.getElementById('popup-save').style.display = 'block'
     }
-
     if (msg.data.pluginMessage.type === 'can-save') {
       const imageBytes = msg.data.pluginMessage.imageBytes
       const name = msg.data.pluginMessage.name
