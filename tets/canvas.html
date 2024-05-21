@@ -180,6 +180,7 @@
     document.getElementById('back').onclick = () => {
         parent.postMessage({ pluginMessage: { type: 'back' } }, '*')
     }
+    
     document.getElementById('saveToFigma').onclick = () => {
         let img = canvas.toDataURL('img/png')
         let base64String = img.split(',')[1];
@@ -294,7 +295,7 @@
 
     function downloadCanvas(link, canvas, filename) {
         link.href = document.getElementById(canvas).toDataURL();
-        link.download = filename;
+        link.download = 'filename';
     }
 
     function eraser() {
